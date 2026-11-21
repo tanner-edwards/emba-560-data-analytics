@@ -46,8 +46,20 @@ Behind a TLS-inspecting proxy (e.g. Zscaler), `get_data.py` uses `truststore` so
 | `rotten_tomatoes_movies.csv` | [andrezaza/clapper-massive-rotten-tomatoes-movies-and-reviews](https://www.kaggle.com/datasets/andrezaza/clapper-massive-rotten-tomatoes-movies-and-reviews) | Director, writer, boxOffice (domestic) |
 | `stefanoleone992/rotten_tomatoes_movies.csv` | [stefanoleone992/rotten-tomatoes-movies-and-critic-reviews-dataset](https://www.kaggle.com/datasets/stefanoleone992/rotten-tomatoes-movies-and-critic-reviews-dataset) | Adds `actors`, `production_company`. Same filename as the andrezaza file but **different data**, hence the subfolder. |
 | `stefanoleone992/rotten_tomatoes_critic_reviews.csv` | (same as above) | Critic reviews |
+| `boxofficemojo/revenues_per_day.csv.gz` | [tjwaterman99/boxofficemojo-scraper](https://github.com/tjwaterman99/boxofficemojo-scraper) (GitHub release, not Kaggle) | Daily **domestic** grosses, 2000–2025, about 7.2k titles. `id` is per row, not per film; join on title + year. |
+| `the_numbers/Top Movies (Cleaned Data).csv` | [michaelmatta0/movies-ultimate-metrics-features-and-metadata](https://www.kaggle.com/datasets/michaelmatta0/movies-ultimate-metrics-features-and-metadata) | Scraped from the-numbers.com: production budget, domestic/international/**worldwide** gross, production companies, MPAA, source, franchise. About 6.6k films. |
 
 Licenses, access dates and grain are recorded in the Data Receipt (`report/`, plan step 8).
+
+## Notebook workflow
+
+**Rules for everyone, including AI assistants working in this repo:**
+
+1. **Personal notebooks are for exploration.** Each person works in their own `notebooks/<LastName>-A10.ipynb` (e.g. `Sorensen-A10.ipynb`, `Edwards-A10.ipynb`). Only the owner edits it.
+2. **`notebooks/A10-master.ipynb` is the team's final notebook.** It's what gets submitted. Only work that is solid (verified, runs top to bottom, agreed by both members) moves into it.
+3. **Promoting work to the master:** copy the finished cells from your personal notebook into the matching section of the master, make them run standalone (no dependence on the personal notebook's state), Run All, then open a PR. The other member reviews before merging.
+4. **Never edit someone else's personal notebook,** and never write exploratory or half-finished work into the master.
+5. **Notebook outputs are stripped on commit** (`nbstripout`). Run `nbstripout --install` once after cloning (see Setup).
 
 ## Standing rules
 - `data/raw/` is never modified. All cleaning happens in notebooks and writes to `data/clean/`.
@@ -70,7 +82,10 @@ Licenses, access dates and grain are recorded in the Data Receipt (`report/`, pl
 | `report/A10_problem_scan_2026-11-17.md` | CRISP-DM problem scan: 9 ranked candidate decisions (Phase 1, step 5) | Matt |
 | `A10_purpose_contract_FROZEN_2026-11-17.md` | Project Purpose Contract with red-team, frozen 2026-11-17 (Phase 1) | Matt |
 | `tools/export_session.py` | Exports a Claude Code session by id: `.md` to `ai_logs/`, raw `.jsonl` to `ai_logs/raw/` | Matt |
-| `tools/get_data.py` | Downloads the raw Kaggle datasets into `data/raw/` | Tanner |
+| `notebooks/A10-master.ipynb` | Team's final notebook; only promoted, verified work (see Notebook workflow) | Tanner / Matt |
+| `notebooks/Edwards-A10.ipynb` | Tanner's EDA: merges The Numbers, Box Office Mojo and RT (stefanoleone992) onto the contract population | Tanner |
+| `data/clean/edwards_merged_sources.csv` | Population + matched columns from the three extra sources. Rebuilt by `Edwards-A10.ipynb` on every run (not in git) | Tanner |
+| `tools/get_data.py` | Downloads all raw datasets (Kaggle + Box Office Mojo) into `data/raw/` | Tanner |
 
 ## AI conversations
 
