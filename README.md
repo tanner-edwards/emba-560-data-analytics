@@ -4,7 +4,7 @@ EMBA 560 **A10** team project: a pre-production **money-loser screen** for film 
 Due **Fri Dec 4, 2026, 3:30 PM**.
 
 - Frozen scope: [`A10_purpose_contract_FROZEN_2026-11-17.md`](A10_purpose_contract_FROZEN_2026-11-17.md)
-- Plan and status: [`a10-master-plan.md`](a10-master-plan.md)
+- Plan, status and session handoff: [`PLAN.md`](PLAN.md)
 
 ## Setup (once per machine)
 
@@ -54,3 +54,32 @@ Licenses, access dates and grain are recorded in the Data Receipt (`report/`, pl
 - The purpose contract is frozen. Changes need a dated amendment with a reason.
 - No post-release inputs in the model (revenue, votes, popularity, scores, reviews, keywords).
 - Export every AI session to `ai_logs/`.
+
+## File inventory
+
+| File | Description | Owner |
+|---|---|---|
+| `README.md` | This file | Tanner / Matt |
+| `PLAN.md` | Project plan, live status checklist, session handoff, and session procedure | Matt |
+| `data/raw/TMDB_movie_dataset_v11.csv` | TMDB movie metadata, 1,538,765 rows (Kaggle: https://www.kaggle.com/datasets/asaniczka/tmdb-movies-dataset-2023-930k-movies, accessed 2026-11-17). License: ODC Attribution (ODC-By) 1.0, https://opendatacommons.org/licenses/by/1-0/ | Matt |
+| `data/raw/rotten_tomatoes_movie_reviews.csv` | Rotten Tomatoes critic reviews, 1,444,963 rows (Kaggle: https://www.kaggle.com/datasets/andrezaza/clapper-massive-rotten-tomatoes-movies-and-reviews, accessed 2026-11-17). License: CC0 1.0, https://creativecommons.org/publicdomain/zero/1.0/ | Matt |
+| `data/raw/rotten_tomatoes_movies.csv` | Rotten Tomatoes movie metadata, 143,258 rows (same Kaggle dataset, accessed 2026-11-17). License: CC0 1.0 | Matt |
+| `notebooks/Sorensen-A10.ipynb` | Main analysis notebook. §2: Data Receipt and physical checks. §3: univariate profile of all 51 fields, flag register, approved dispositions. §4: TMDB–RT join and its verification | Matt |
+| `data/clean/tmdb_rt_crosswalk.csv` | TMDB id ↔ RT id, 4,673 one-to-one pairs with match rule and year/runtime differences. Rebuilt by notebook §4 on every run (not in git) | Matt |
+| `data/clean/join_handcheck.csv` | 60 matched pairs (random 50 + 10 rule-2b) hand-checked by Matt, 2026-11-19: all correct. Written once by §4; never overwritten. Force-added to git because it can't be regenerated | Matt |
+| `report/A10_problem_scan_2026-11-17.md` | CRISP-DM problem scan: 9 ranked candidate decisions (Phase 1, step 5) | Matt |
+| `A10_purpose_contract_FROZEN_2026-11-17.md` | Project Purpose Contract with red-team, frozen 2026-11-17 (Phase 1) | Matt |
+| `tools/export_session.py` | Exports a Claude Code session by id: `.md` to `ai_logs/`, raw `.jsonl` to `ai_logs/raw/` | Matt |
+| `tools/get_data.py` | Downloads the raw Kaggle datasets into `data/raw/` | Tanner |
+
+## AI conversations
+
+Every AI conversation about A10. **FINAL** means the transcript is complete (Claude Code sessions are finalized by re-exporting at the start of the next session).
+
+| # | Date | Who / tool | Session id | Topic | File in `ai_logs/` | Raw original | Status |
+|---|---|---|---|---|---|---|---|
+| 1 | 2026-11-17 | Matt / Claude.ai chat | (web chat) | Assignment scoping, question framing, handoff to Claude Code | `Sorensen_ClaudeChat_A10-planning-handoff_2026-11-17.md` | (verbatim paste) | FINAL |
+| 2 | 2026-11-17 | Matt / Claude Code | b61e1644-fb70-4c84-834f-dab72e7c5879 | Data profiling, join test, master plan, problem scan, Purpose Contract, Data Receipt | `Sorensen_ClaudeCode_data-scoping-join-masterplan_2026-11-17.md` | `raw/…2026-11-17.jsonl` | FINAL |
+| 3 | 2026-11-18 | Matt / Claude Code | 6c37400e-06fc-46b6-b6bf-d83573cd0c9e | Resume check, transcript re-export, session procedure, folder cleanup, separation from A7 workspace | `Sorensen_ClaudeCode_session-procedure_2026-11-18.md` | `raw/…2026-11-18.jsonl` | FINAL |
+| 4 | 2026-11-18 | Matt / Claude Code | fde2d022-bd22-439c-90ff-8b7608779760 | Failed "start session": Claude Code launched in the A7 folder by mistake, so it had no A10 memory and offered to work on A7. Kept as a record of the procedure failure | `Sorensen_ClaudeCode_wrong-folder-start_2026-11-18.md` | `raw/…wrong-folder-start_2026-11-18.jsonl` | FINAL |
+| 5 | 2026-11-18 to 11-19 | Matt / Claude Code | fb9b8a75-3b2f-4715-8305-2e18a342c311 | Procedure test, wrong-folder fix, univariate profile (step 9), TMDB–RT join and hand-check (step 10), executive summary for teammates | `Sorensen_ClaudeCode_profile-and-join_2026-11-18.md` | `raw/…profile-and-join_2026-11-18.jsonl` | PARTIAL |
