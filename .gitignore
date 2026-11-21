@@ -1,0 +1,17 @@
+# Data: downloaded per-machine via tools/get_data.py (files exceed GitHub's 100MB limit)
+data/raw/*
+!data/raw/.gitkeep
+data/clean/*.csv
+data/clean/*.parquet
+
+# Python / Jupyter
+.venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
