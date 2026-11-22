@@ -21,6 +21,9 @@ uv pip install --python .venv -r requirements.txt
 
 # 3. Download raw data from Kaggle into data/raw/ (about 1.3 GB, gitignored)
 .venv/bin/python tools/get_data.py      # Windows: .venv\Scripts\python tools\get_data.py
+
+# 4. Build the unified dataset: run notebooks/00_build_dataset.ipynb top to bottom
+#    -> data/clean/films_unified.csv (gitignored)
 ```
 
 Behind a TLS-inspecting proxy (e.g. Zscaler), `get_data.py` uses `truststore` so Python trusts the OS certificate store.
@@ -56,6 +59,7 @@ Licenses, access dates and grain are recorded in the Data Receipt (`report/`, pl
 
 **Rules for everyone, including AI assistants working in this repo:**
 
+0. **Data comes from one place.** `notebooks/00_build_dataset.ipynb` merges all sources into `data/clean/films_unified.csv` (one row per film). Every other notebook starts by reading that file and never re-merges raw data. Rerun `00_build_dataset.ipynb` after pulling changes to it. It's team-owned: changes go through a PR.
 1. **Personal notebooks are for exploration.** Each person works in their own `notebooks/<LastName>-A10.ipynb` (e.g. `Sorensen-A10.ipynb`, `Edwards-A10.ipynb`). Only the owner edits it.
 2. **`notebooks/A10-master.ipynb` is the team's final notebook.** It's what gets submitted. Only work that is solid (verified, runs top to bottom, agreed by both members) moves into it.
 3. **Promoting work to the master:** copy the finished cells from your personal notebook into the matching section of the master, make them run standalone (no dependence on the personal notebook's state), Run All, then open a PR. The other member reviews before merging.
@@ -84,8 +88,10 @@ Licenses, access dates and grain are recorded in the Data Receipt (`report/`, pl
 | `A10_purpose_contract_FROZEN_2026-11-17.md` | Project Purpose Contract with red-team, frozen 2026-11-17 (Phase 1) | Matt |
 | `tools/export_session.py` | Exports a Claude Code session by id: `.md` to `ai_logs/`, raw `.jsonl` to `ai_logs/raw/` | Matt |
 | `notebooks/A10-master.ipynb` | Team's final notebook; only promoted, verified work (see Notebook workflow) | Tanner / Matt |
-| `notebooks/Edwards-A10.ipynb` | Tanner's EDA: title+year matcher; adds The Numbers, Wikidata, Box Office Mojo and RT (stefanoleone992) to TMDB; combined budget/revenue grows usable films 5,766 → 6,671 | Tanner |
-| `data/clean/edwards_films_merged.csv` | 2000–2023 TMDB films with any financial value, plus matched columns from all sources and combined `fin_budget` / `fin_revenue`. Rebuilt every run (not in git) | Tanner |
+| `notebooks/00_build_dataset.ipynb` | Shared pipeline: matches The Numbers, Wikidata, Box Office Mojo and both RT files to TMDB and writes the unified dataset. Usable films 5,766 → 6,671 | Tanner / Matt |
+| `notebooks/Edwards-A10.ipynb` | Tanner's EDA; reads `films_unified.csv` | Tanner |
+| `data/clean/films_unified.csv` | **The unified dataset:** one row per 2000–2023 film with any financial value, all sources attached, combined `fin_budget` / `fin_revenue`, `usable` flag. Column prefixes explained in `00_build_dataset.ipynb`. Rebuilt every run (not in git) | Tanner / Matt |
+| `data/clean/films_tn_only.csv` | The Numbers films with no TMDB match (not yet in the unified file). Rebuilt every run (not in git) | Tanner / Matt |
 | `data/clean/edwards_tn_handcheck.csv` | 50 The Numbers ↔ TMDB matches (25 risky) for hand-checking. Written once, never overwritten | Tanner |
 | `tools/get_data.py` | Downloads all raw datasets (Kaggle + Box Office Mojo) into `data/raw/` | Tanner |
 
