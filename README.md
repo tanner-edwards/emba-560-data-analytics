@@ -48,6 +48,7 @@ Behind a TLS-inspecting proxy (e.g. Zscaler), `get_data.py` uses `truststore` so
 | `stefanoleone992/rotten_tomatoes_critic_reviews.csv` | (same as above) | Critic reviews |
 | `boxofficemojo/revenues_per_day.csv.gz` | [tjwaterman99/boxofficemojo-scraper](https://github.com/tjwaterman99/boxofficemojo-scraper) (GitHub release, not Kaggle) | Daily **domestic** grosses, 2000–2025, about 7.2k titles. `id` is per row, not per film; join on title + year. |
 | `the_numbers/Top Movies (Cleaned Data).csv` | [michaelmatta0/movies-ultimate-metrics-features-and-metadata](https://www.kaggle.com/datasets/michaelmatta0/movies-ultimate-metrics-features-and-metadata) | Scraped from the-numbers.com: production budget, domestic/international/**worldwide** gross, production companies, MPAA, source, franchise. About 6.6k films. |
+| `wikidata/wikidata_film_financials_2026-11-21.csv` | Wikidata SPARQL query `tools/wikidata_films.rq`, run 2026-11-21. SHA-256 `c2fa656a…1ef9dd7` | USD budget and box office for 2,570 films with a TMDB id. **Committed to git**: Wikidata is live with no versions, so this snapshot is the source of record. License: CC0. |
 
 Licenses, access dates and grain are recorded in the Data Receipt (`report/`, plan step 8).
 
@@ -83,8 +84,9 @@ Licenses, access dates and grain are recorded in the Data Receipt (`report/`, pl
 | `A10_purpose_contract_FROZEN_2026-11-17.md` | Project Purpose Contract with red-team, frozen 2026-11-17 (Phase 1) | Matt |
 | `tools/export_session.py` | Exports a Claude Code session by id: `.md` to `ai_logs/`, raw `.jsonl` to `ai_logs/raw/` | Matt |
 | `notebooks/A10-master.ipynb` | Team's final notebook; only promoted, verified work (see Notebook workflow) | Tanner / Matt |
-| `notebooks/Edwards-A10.ipynb` | Tanner's EDA: merges The Numbers, Box Office Mojo and RT (stefanoleone992) onto the contract population | Tanner |
-| `data/clean/edwards_merged_sources.csv` | Population + matched columns from the three extra sources. Rebuilt by `Edwards-A10.ipynb` on every run (not in git) | Tanner |
+| `notebooks/Edwards-A10.ipynb` | Tanner's EDA: title+year matcher; adds The Numbers, Wikidata, Box Office Mojo and RT (stefanoleone992) to TMDB; combined budget/revenue grows usable films 5,766 → 6,671 | Tanner |
+| `data/clean/edwards_films_merged.csv` | 2000–2023 TMDB films with any financial value, plus matched columns from all sources and combined `fin_budget` / `fin_revenue`. Rebuilt every run (not in git) | Tanner |
+| `data/clean/edwards_tn_handcheck.csv` | 50 The Numbers ↔ TMDB matches (25 risky) for hand-checking. Written once, never overwritten | Tanner |
 | `tools/get_data.py` | Downloads all raw datasets (Kaggle + Box Office Mojo) into `data/raw/` | Tanner |
 
 ## AI conversations

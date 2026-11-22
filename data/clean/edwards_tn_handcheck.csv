@@ -1,0 +1,51 @@
+id,year_diff,runtime_diff,budget_agrees,title,original_title,year,runtime,budget,tn_Movie Name,tn_year,tn_Running Time (minutes),tn_Production Budget (USD),risky,correct
+272692,0,0,FALSE,The Possession of Michael King,The Possession of Michael King,2014,83,0,The Possession of Michael King,2014,83,1300000,TRUE,Y
+150211,0,,FALSE,The Frozen,The Frozen,2012,95,0,The Frozen,2012,,250000,TRUE,Y
+77949,1,5,TRUE,The Awakening,The Awakening,2011,107,4798235,The Awakening,2012,102,4900000,TRUE,Y
+397722,0,2,FALSE,Thoroughbreds,Thoroughbreds,2018,92,0,Thoroughbreds,2018,90,5000000,TRUE,Y
+451995,0,5,FALSE,Faces Places,"Visages, villages",2017,94,0,Visages villages,2017,89,1000000,TRUE,Y
+230015,0,2,FALSE,Underdogs,Underdogs,2013,104,0,Underdogs,2013,102,2500000,TRUE,Y
+157847,1,1,TRUE,Joe,Joe,2013,118,4000000,Joe,2014,117,4000000,TRUE,Y
+12473,1,1,TRUE,The Visitor,The Visitor,2007,104,4000000,The Visitor,2008,103,4000000,TRUE,Y
+655705,0,57,FALSE,Loved Ones,De närmaste,2012,27,0,The Loved Ones,2012,84,4000000,TRUE,Y
+94352,0,0,FALSE,Cirque du Soleil: Worlds Away,Cirque du Soleil: Worlds Away,2012,91,0,Cirque du Soleil: Worlds Away,2012,91,25000000,TRUE,Y
+96724,0,1,FALSE,Anna Karenina,Anna Karenina,2012,130,0,Anna Karenina,2012,129,49000000,TRUE,Y
+121602,0,0,FALSE,Dangerous Liaisons,危險關係,2012,110,31000000,Dangerous Liaisons,2012,110,24200000,TRUE,Y
+9053,0,,FALSE,DOA: Dead or Alive,DOA: Dead or Alive,2006,87,21000000,DOA: Dead or Alive,2006,,30000000,TRUE,Y
+83,1,0,FALSE,Open Water,Open Water,2003,79,130000,Open Water,2004,79,500000,TRUE,Y
+21641,0,,FALSE,The Damned United,The Damned United,2009,97,10000000,The Damned United,2009,,6400000,TRUE,Y
+258755,0,,FALSE,Hidden Away,A escondidas,2014,96,0,Hidden Away,2014,,1000000,TRUE,Y
+11516,2,9,FALSE,Winged Migration,Le peuple migrateur,2001,89,35866397,Winged Migration,2003,98,28000000,TRUE,Y
+42057,0,0,FALSE,It's a Wonderful Afterlife,It's a Wonderful Afterlife,2010,99,0,It's a Wonderful Afterlife,2010,99,10000000,TRUE,Y
+14048,0,0,FALSE,Man on Wire,Man on Wire,2008,94,0,Man on Wire,2008,94,1900000,TRUE,Y
+2055,0,0,FALSE,Open Range,Open Range,2003,139,22000000,Open Range,2003,139,26000000,TRUE,Y
+31932,1,,TRUE,City of Ghosts,City of Ghosts,2002,116,17500000,City of Ghosts,2003,,17500000,TRUE,Y
+11857,0,1,FALSE,Orange County,Orange County,2002,82,0,Orange County,2002,83,18000000,TRUE,Y
+4643,0,0,FALSE,The Guardian,The Guardian,2006,139,10000000,The Guardian,2006,139,70000000,TRUE,Y
+10628,0,0,FALSE,Kangaroo Jack,Kangaroo Jack,2003,89,0,Kangaroo Jack,2003,89,60000000,TRUE,Y
+473543,0,1,FALSE,Lunch Time Heroes,Lunch Time Heroes,2015,87,0,Lunch Time Heroes,2015,88,100000,TRUE,Y
+13967,0,0,TRUE,Miss Potter,Miss Potter,2006,92,30000000,Miss Potter,2006,92,30000000,FALSE,Y
+146,0,0,TRUE,"Crouching Tiger, Hidden Dragon",卧虎藏龍,2000,120,17000000,"Crouching Tiger, Hidden Dragon",2000,120,15000000,FALSE,Y
+241259,0,0,TRUE,Alice Through the Looking Glass,Alice Through the Looking Glass,2016,113,170000000,Alice Through the Looking Glass,2016,113,170000000,FALSE,Y
+76203,0,1,TRUE,12 Years a Slave,12 Years a Slave,2013,134,20000000,12 Years a Slave,2013,133,20000000,FALSE,Y
+254320,0,1,TRUE,The Lobster,The Lobster,2015,118,4000000,The Lobster,2015,119,4500000,FALSE,Y
+492452,0,0,TRUE,Ben Is Back,Ben Is Back,2018,103,13000000,Ben is Back,2018,103,13000000,FALSE,Y
+214086,0,10,TRUE,The Face of Love,The Face of Love,2013,92,4000000,The Face of Love,2013,82,4000000,FALSE,Y
+37799,0,1,TRUE,The Social Network,The Social Network,2010,121,40000000,The Social Network,2010,120,40000000,FALSE,Y
+52449,0,0,TRUE,Bad Teacher,Bad Teacher,2011,92,20000000,Bad Teacher,2011,92,19000000,FALSE,Y
+527014,0,1,TRUE,Alien Psychosis,Alien Psychosis,2018,74,1000000,Alien Psychosis,2018,73,1000000,FALSE,Y
+440,0,0,TRUE,Aliens vs Predator: Requiem,Aliens vs Predator: Requiem,2007,94,40000000,Aliens vs. Predator - Requiem,2007,94,40000000,FALSE,Y
+192136,0,5,TRUE,Mandela: Long Walk to Freedom,Mandela: Long Walk to Freedom,2013,141,35000000,Mandela: Long Walk to Freedom,2013,146,35000000,FALSE,Y
+10053,0,0,TRUE,When a Stranger Calls,When a Stranger Calls,2006,87,15000000,When a Stranger Calls,2006,87,15000000,FALSE,Y
+368940,0,1,TRUE,Robinson Crusoe,Robinson Crusoe,2016,90,13500000,Robinson Crusoe,2016,91,13000000,FALSE,Y
+27578,0,0,TRUE,The Expendables,The Expendables,2010,103,80000000,The Expendables,2010,103,82000000,FALSE,Y
+3594,0,6,TRUE,The Number 23,The Number 23,2007,101,30000000,The Number 23,2007,95,32000000,FALSE,Y
+351044,0,0,TRUE,Welcome to Marwen,Welcome to Marwen,2018,116,39000000,Welcome to Marwen,2018,116,45000000,FALSE,Y
+429197,0,0,TRUE,Vice,Vice,2018,132,60000000,Vice,2018,132,60000000,FALSE,Y
+951491,0,0,TRUE,Saw X,Saw X,2023,118,13000000,Saw X,2023,118,13000000,FALSE,Y
+615656,0,0,TRUE,Meg 2: The Trench,Meg 2: The Trench,2023,116,129000000,Meg 2: The Trench,2023,116,129000000,FALSE,Y
+258230,0,0,TRUE,A Monster Calls,A Monster Calls,2016,108,43000000,A Monster Calls,2016,108,43000000,FALSE,Y
+23367,0,0,TRUE,Bandslam,Bandslam,2009,111,20000000,Bandslam,2009,111,20000000,FALSE,Y
+30246,0,,TRUE,Civil Brand,Civil Brand,2003,95,500000,Civil Brand,2003,,500000,FALSE,Y
+447027,0,,TRUE,Running Forever,Running Forever,2015,88,5000000,Running Forever,2015,,5000000,FALSE,Y
+581734,0,0,TRUE,Nomadland,Nomadland,2021,108,5000000,Nomadland,2021,108,5000000,FALSE,Y

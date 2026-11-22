@@ -1,0 +1,10 @@
+# Wikidata: films released 2000-2023 with a production cost (P2130) in USD and a TMDB id.
+# Snapshot saved to data/raw/wikidata/ (committed; Wikidata is live and has no versions).
+SELECT ?tmdb (SAMPLE(?f) AS ?item) (SAMPLE(?lbl) AS ?title) (MIN(YEAR(?d)) AS ?year)
+       (MAX(?c) AS ?wd_budget_usd) (MAX(?b) AS ?wd_box_office_usd) WHERE {
+  ?f wdt:P31 wd:Q11424; wdt:P577 ?d; wdt:P4947 ?tmdb .
+  FILTER(YEAR(?d) >= 2000 && YEAR(?d) <= 2023)
+  ?f p:P2130/psv:P2130 [ wikibase:quantityAmount ?c; wikibase:quantityUnit wd:Q4917 ] .
+  OPTIONAL { ?f p:P2142/psv:P2142 [ wikibase:quantityAmount ?b; wikibase:quantityUnit wd:Q4917 ] }
+  OPTIONAL { ?f rdfs:label ?lbl FILTER(LANG(?lbl) = "en") }
+} GROUP BY ?tmdb

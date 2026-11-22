@@ -1,6 +1,8 @@
 # Data: downloaded per-machine via tools/get_data.py (files exceed GitHub's 100MB limit)
 data/raw/*
 !data/raw/.gitkeep
+# Wikidata is a live source with no versions: the snapshot is committed so everyone uses the same rows
+!data/raw/wikidata/
 data/clean/*.csv
 data/clean/*.parquet
 
