@@ -77,6 +77,7 @@ Licenses, access dates and grain are recorded in the Data Receipt (`report/`, pl
 | File | Description | Owner |
 |---|---|---|
 | `README.md` | This file | Tanner / Matt |
+| `FEATURE_IDEAS.md` | Running list of candidate model features with a time-order check for each. AI assistants add ideas automatically when they come up | Tanner / Matt |
 | `PLAN.md` | Project plan, live status checklist, session handoff, and session procedure | Matt |
 | `data/raw/TMDB_movie_dataset_v11.csv` | TMDB movie metadata, 1,538,765 rows (Kaggle: https://www.kaggle.com/datasets/asaniczka/tmdb-movies-dataset-2023-930k-movies, accessed 2026-11-17). License: ODC Attribution (ODC-By) 1.0, https://opendatacommons.org/licenses/by/1-0/ | Matt |
 | `data/raw/rotten_tomatoes_movie_reviews.csv` | Rotten Tomatoes critic reviews, 1,444,963 rows (Kaggle: https://www.kaggle.com/datasets/andrezaza/clapper-massive-rotten-tomatoes-movies-and-reviews, accessed 2026-11-17). License: CC0 1.0, https://creativecommons.org/publicdomain/zero/1.0/ | Matt |
