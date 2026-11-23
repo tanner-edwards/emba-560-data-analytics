@@ -41,6 +41,7 @@ A running list of candidate model features for the A10 money-loser screen. Anyon
   - TMDB "collections" (`belongs_to_collection`) exist in the TMDB API but **not** in our Kaggle file
 - **Time-order check:** ⚠️ "1 **of 3**" leaks the future. When *Spider-Man* (2002) was financed, nobody knew there would be three. Total series length can't be an input; installment number and *prior* installments can.
 - **Open questions:**
+  - Is the "of N" part usable? Tanner (2026-11-23): installment > 1 is clearly known at financing, and planned series (e.g. announced trilogies) often know their length up front. Debate later; if used, it should be the *planned* length at financing, not the eventual count.
   - Series vs franchise: is *Iron Man 2* installment 2 (Iron Man series) or installment 3 (MCU)? Probably keep both.
   - Reboots and remakes: does *The Amazing Spider-Man* (2012) restart the count?
   - Coverage: how many usable films have franchise data from any source?
