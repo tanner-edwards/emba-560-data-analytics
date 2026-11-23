@@ -88,10 +88,9 @@ Licenses, access dates and grain are recorded in the Data Receipt (`report/`, pl
 | `A10_purpose_contract_FROZEN_2026-11-17.md` | Project Purpose Contract with red-team, frozen 2026-11-17 (Phase 1) | Matt |
 | `tools/export_session.py` | Exports a Claude Code session by id: `.md` to `ai_logs/`, raw `.jsonl` to `ai_logs/raw/` | Matt |
 | `notebooks/A10-master.ipynb` | Team's final notebook; only promoted, verified work (see Notebook workflow) | Tanner / Matt |
-| `notebooks/00_build_dataset.ipynb` | Shared pipeline: matches The Numbers, Wikidata, Box Office Mojo and both RT files to TMDB and writes the unified dataset. Usable films 5,766 → 6,671 | Tanner / Matt |
+| `notebooks/00_build_dataset.ipynb` | Shared pipeline: matches The Numbers, Wikidata, Box Office Mojo and both RT files to TMDB and writes the unified dataset. Usable films 5,766 → 6,934 | Tanner / Matt |
 | `notebooks/Edwards-A10.ipynb` | Tanner's EDA; reads `films_unified.csv` | Tanner |
-| `data/clean/films_unified.csv` | **The unified dataset:** one row per 2000–2023 film with any financial value, all sources attached, combined `fin_budget` / `fin_revenue`, `usable` flag. Column prefixes explained in `00_build_dataset.ipynb`. Rebuilt every run (not in git) | Tanner / Matt |
-| `data/clean/films_tn_only.csv` | The Numbers films with no TMDB match (not yet in the unified file). Rebuilt every run (not in git) | Tanner / Matt |
+| `data/clean/films_unified.csv` | **The unified dataset:** one row per 2000–2023 film with any financial value (TMDB films plus The Numbers-only films, which have negative `id` and `in_tmdb` = False), all sources attached, combined `fin_budget` / `fin_revenue`, `usable` flag. Column prefixes explained in `00_build_dataset.ipynb`. Rebuilt every run (not in git) | Tanner / Matt |
 | `data/clean/edwards_tn_handcheck.csv` | 50 The Numbers ↔ TMDB matches (25 risky) for hand-checking. Written once, never overwritten | Tanner |
 | `tools/get_data.py` | Downloads all raw datasets (Kaggle + Box Office Mojo) into `data/raw/` | Tanner |
 
