@@ -23,7 +23,7 @@ uv pip install --python .venv -r requirements.txt
 .venv/bin/python tools/get_data.py      # Windows: .venv\Scripts\python tools\get_data.py
 
 # 4. Build the unified dataset: run notebooks/00_build_dataset.ipynb top to bottom
-#    -> data/clean/films_unified.csv (gitignored)
+#    -> data/clean/films_unified.csv and data/clean/reviews_unified.csv (gitignored)
 ```
 
 Behind a TLS-inspecting proxy (e.g. Zscaler), `get_data.py` uses `truststore` so Python trusts the OS certificate store.
@@ -91,7 +91,8 @@ Licenses, access dates and grain are recorded in the Data Receipt (`report/`, pl
 | `notebooks/A10-master.ipynb` | Team's final notebook; only promoted, verified work (see Notebook workflow) | Tanner / Matt |
 | `notebooks/00_build_dataset.ipynb` | Shared pipeline: matches The Numbers, Wikidata, Box Office Mojo and both RT files to TMDB and writes the unified dataset. Usable films 5,766 → 6,934 | Tanner / Matt |
 | `notebooks/Edwards-A10.ipynb` | Tanner's EDA; reads `films_unified.csv` | Tanner |
-| `data/clean/films_unified.csv` | **The unified dataset:** one row per 2000–2023 film with any financial value (TMDB films plus The Numbers-only films, which have negative `id` and `in_tmdb` = False), all sources attached, combined `fin_budget` / `fin_revenue`, `usable` flag. Column prefixes explained in `00_build_dataset.ipynb`. Rebuilt every run (not in git) | Tanner / Matt |
+| `data/clean/films_unified.csv` | **The unified dataset:** one row per 2000–2023 film, keyed by `film_uid` (`tmdb-<id>` or `tn-<The Numbers slug>`; stable across rebuilds), with any financial value (TMDB films plus The Numbers-only films, which have `in_tmdb` = False), all sources attached, combined `fin_budget` / `fin_revenue`, `usable` flag, per-film review summaries (`rtrev_*`, `slrev_*`). Column prefixes explained in `00_build_dataset.ipynb`. Rebuilt every run (not in git) | Tanner / Matt |
+| `data/clean/reviews_unified.csv` | One row per critic review (both RT review files stacked, `source` column), keyed by `film_uid`. Only exact copies of the same review are dropped. Post-release: descriptive only. Rebuilt every run (not in git) | Tanner / Matt |
 | `data/clean/edwards_tn_handcheck.csv` | 50 The Numbers ↔ TMDB matches (25 risky) for hand-checking. Written once, never overwritten | Tanner |
 | `tools/get_data.py` | Downloads all raw datasets (Kaggle + Box Office Mojo) into `data/raw/` | Tanner |
 
