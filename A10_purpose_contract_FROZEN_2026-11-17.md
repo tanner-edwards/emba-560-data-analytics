@@ -79,12 +79,12 @@ The contract fields above are kept as frozen. Where an amendment differs, the am
 |---|---|---|---|
 | A1 | Population: years | Keep 2000–2023 | Enough films to be relevant today; earlier data is thin and needs inflation adjustment; later films hadn't finished their run |
 | A2 | Population: budget floor | Keep $1M; rerun the final model at $100K as a sensitivity check, limited to films with reported revenue | Low-budget films are part of the decision, but 83% of $100K–$1M films have no revenue |
-| A3 | Outcome: multiple | Label the multiple an industry convention, cite a source and show sensitivity results. Its 2.5× worldwide cutoff is replaced by A7. | The threshold is a rule of thumb, not a data finding |
+| A3 | Outcome: multiple | Keep 2.5× worldwide, labeled an industry convention, with a cited source and the 1×, 2× and 3× sensitivity results | The threshold is a rule of thumb, not a data finding |
 | A4 | Allowed inputs | Reopen the list to inputs that meet A6. The specific list is in A8 (draft), so none is added yet. | More is known before release than at financing |
 | A5 | Stress test | Keep 2020–2023 reported separately | No change |
 | A6 | Decision time | Before release. Inputs the studio can control before release are allowed. Post-release data, pre-release reviews, festival buzz and TMDB keywords stay prohibited. | Release date, distributor, rating, and final runtime and budget are set before release |
-| A7 | Outcome and population | Money-loser = US box office < 1.25× budget, with 1× and 1.5× shown next to it. Population = films with a reported US box office. | Fits the US-market goal; worldwide revenue equals US gross for 618 films, which wrongly labels many of them losers |
+| A7 | Side check | Rerun the final model with money-loser = US box office < 1.25× budget, on films with a reported US box office. **The main outcome and population do not change.** | Worldwide revenue equals US gross for 618 films, which wrongly labels many of them losers; the side check shows whether the result depends on that |
 
-**Disclosure:** no model had been fitted. Loser rates had been seen overall and by period (including the 2016–2019 test films), by financial source, by match status, and for US and non-US films. A7 was proposed after that. Earlier the same day, Tanner approved pull request #6, whose A8 draft kept worldwide 2.5× as the main outcome; Matt then chose A7's US outcome, which this section records. S4, the split sizes and A2's figures must be rerun on the A7 population.
+**Disclosure:** no model had been fitted. Loser rates had been seen overall and by period (including the 2016–2019 test films), by financial source, by match status, and for US and non-US films. The main outcome cutoff and the evidence bar did not change.
 
 **Not yet in effect:** A8 (decision, owner, action and input list).
