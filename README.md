@@ -22,9 +22,24 @@ uv pip install --python .venv -r requirements.txt
 # 3. Download raw data from Kaggle into data/raw/ (about 1.3 GB, gitignored)
 .venv/bin/python tools/get_data.py      # Windows: .venv\Scripts\python tools\get_data.py
 
-# 4. Build the unified dataset: run notebooks/00_build_dataset.ipynb top to bottom
-#    -> data/clean/films_unified.csv and data/clean/reviews_unified.csv (gitignored)
+# 4-5. Build the data: run the pipeline notebooks in order (see "Run order" below)
 ```
+
+## Run order
+
+Run these top to bottom, in this order. Each step reads only the output of the step before it. Every output is gitignored, so each person builds their own copy.
+
+| # | Run | Reads | Writes | Rerun when |
+|---|---|---|---|---|
+| 1 | `tools/get_data.py` | Kaggle, Box Office Mojo | `data/raw/` | Once per machine, or when a source is added |
+| 2 | `notebooks/00_build_dataset.ipynb` (**assemble**) | `data/raw/` | `data/clean/films_unified.csv`, `data/clean/reviews_unified.csv` | You pulled changes to it, or step 1 re-ran |
+| 3 | `notebooks/01_clean_dataset.ipynb` (**clean**) | `films_unified.csv` | `data/clean/films_clean.csv`, `data/clean/films_clean_columns.csv` | You pulled changes to it, or step 2 re-ran |
+| 4 | Your notebook (`<LastName>-A10.ipynb`) or `A10-master.ipynb` | `films_clean.csv` (Data Understanding reads `films_unified.csv`) | nothing shared | Any time |
+
+**Rule of thumb:** if you pulled changes to step N, rerun step N and every step after it.
+
+- **Assemble vs clean:** `00` only joins sources (one row per film, every source's columns side by side). `01` combines repeated columns into one per fact, standardizes formats and adds missing flags. It never drops films.
+- `films_clean_columns.csv` lists every column's group and role (key, input, label, description, source detail). Only `input` columns (and `fin_budget`) can go into a model.
 
 Behind a TLS-inspecting proxy (e.g. Zscaler), `get_data.py` uses `truststore` so Python trusts the OS certificate store.
 
@@ -59,7 +74,7 @@ Licenses, access dates and grain are recorded in the Data Receipt (`report/`, pl
 
 **Rules for everyone, including AI assistants working in this repo:**
 
-0. **Data comes from one place.** `notebooks/00_build_dataset.ipynb` merges all sources into `data/clean/films_unified.csv` (one row per film). Every other notebook starts by reading that file and never re-merges raw data. Rerun `00_build_dataset.ipynb` after pulling changes to it. It's team-owned: changes go through a PR.
+0. **Data comes from one place.** The pipeline notebooks (`00_build_dataset.ipynb` → `01_clean_dataset.ipynb`, see **Run order**) produce `data/clean/films_clean.csv`, one row per film. Analysis notebooks start from that file and never re-merge or re-clean raw data. To change the data, change the pipeline notebook (team-owned, via PR) instead.
 1. **Personal notebooks are for exploration.** Each person works in their own `notebooks/<LastName>-A10.ipynb` (e.g. `Sorensen-A10.ipynb`, `Edwards-A10.ipynb`). Only the owner edits it.
 2. **`notebooks/A10-master.ipynb` is the team's final notebook.** It's what gets submitted. Only work that is solid (verified, runs top to bottom, agreed by both members) moves into it.
 3. **Promoting work to the master:** copy the finished cells from your personal notebook into the matching section of the master, make them run standalone (no dependence on the personal notebook's state), Run All, then open a PR. The other member reviews before merging.
@@ -89,10 +104,13 @@ Licenses, access dates and grain are recorded in the Data Receipt (`report/`, pl
 | `A10_purpose_contract_FROZEN_2026-11-17.md` | Project Purpose Contract with red-team, frozen 2026-11-17 (Phase 1) | Matt |
 | `tools/export_session.py` | Exports a Claude Code session by id: `.md` to `ai_logs/`, raw `.jsonl` to `ai_logs/raw/` | Matt |
 | `notebooks/A10-master.ipynb` | Team's final notebook; only promoted, verified work (see Notebook workflow) | Tanner / Matt |
-| `notebooks/00_build_dataset.ipynb` | Shared pipeline: matches The Numbers, Wikidata, Box Office Mojo and both RT files to TMDB and writes the unified dataset. Usable films 5,766 → 6,934 | Tanner / Matt |
-| `notebooks/Edwards-A10.ipynb` | Tanner's EDA; reads `films_unified.csv` | Tanner |
+| `notebooks/00_build_dataset.ipynb` | Shared pipeline: matches The Numbers, Wikidata, Box Office Mojo and both RT files to TMDB and writes the unified dataset (assemble only). Usable films 5,766 → 6,838 | Tanner / Matt |
+| `notebooks/01_clean_dataset.ipynb` | Shared pipeline: combines repeated columns into one per fact (rules C1–C18 from `Edwards-A10.ipynb` §4b), standardizes formats, adds `_src` and `_missing` columns. Never drops films | Tanner / Matt |
+| `notebooks/Edwards-A10.ipynb` | Tanner's Data Understanding (Matt's §2–§3 on the unified data) and missing-value / combine-rule analysis (§4); reads `films_unified.csv` | Tanner |
 | `data/clean/films_unified.csv` | **The unified dataset:** one row per 2000–2023 film, keyed by `film_uid` (`tmdb-<id>` or `tn-<The Numbers slug>`; stable across rebuilds), with any financial value (TMDB films plus The Numbers-only films, which have `in_tmdb` = False), all sources attached, combined `fin_budget` / `fin_revenue`, `usable` flag, per-film review summaries (`rtrev_*`, `slrev_*`). Column prefixes explained in `00_build_dataset.ipynb`. Rebuilt every run (not in git) | Tanner / Matt |
 | `data/clean/reviews_unified.csv` | One row per critic review (both RT review files stacked, `source` column), keyed by `film_uid`. Only exact copies of the same review are dropped. Post-release: descriptive only. Rebuilt every run (not in git) | Tanner / Matt |
+| `data/clean/films_clean.csv` | **The analysis dataset:** same films as `films_unified.csv`, columns grouped key → population → money → input → provenance → description → source detail. Rebuilt every run (not in git) | Tanner / Matt |
+| `data/clean/films_clean_columns.csv` | Dictionary: every column of `films_clean.csv` with its group, role and fill rate. Rebuilt every run (not in git) | Tanner / Matt |
 | `data/clean/edwards_tn_handcheck.csv` | 50 The Numbers ↔ TMDB matches (25 risky) for hand-checking. Written once, never overwritten | Tanner |
 | `tools/get_data.py` | Downloads all raw datasets (Kaggle + Box Office Mojo) into `data/raw/` | Tanner |
 
