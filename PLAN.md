@@ -7,23 +7,27 @@ Contents: [Handoff](#handoff) · [Session procedure](#session-procedure) · [Dir
 ## Handoff
 *Rewritten at every session end. Read this first when resuming.*
 
-**Last updated:** 2026-11-19, end of session fb9b8a75
-**Where we stopped:** Phase 2, step 11 (early-review test) not started. **Schedule:** on track (Phase 2 due Nov 21; steps 11–12 remain).
-**Done last session:**
-- Procedure test passed. A wrong-folder start (fde2d022, in A7 via a stray `A10.code-workspace`) was diagnosed, logged as FINAL, and guarded against (A7 memory note, simple start/end steps in Session procedure).
-- Step 9: notebook §3, all 51 fields profiled, 66 flags in register §3i, 12 dispositions approved by Matt in §3k, gate CONTINUE.
-- Step 10: notebook §4, join 4,673 / 5,766 (81.0%), rule 2b added after first pass (documented). Matt's hand-check: 0 / 50 wrong → S3 not triggered; rule 2b 0 / 11 wrong. Findings in §4e.
-- Executive summary for teammates published (private until Matt shares it): https://claude.ai/artifact/3tS4P4hM57G8gh3hnbGa3w
+**Last updated:** 2026-11-24, end of Tanner's session cae33d13 (Claude Code)
+**Where we are:** Data assembled and partly cleaned; Tanner reviewed every input and decided outlier and missing-value rules. All of it is in `notebooks/Edwards-A10.ipynb` §4–9 and merged to `main` (PR #5). **Not yet promoted** into the shared pipeline.
+**Run order (README):** `tools/get_data.py` → `00_build_dataset.ipynb` → `01_clean_dataset.ipynb` → personal notebooks. Analysis starts from `data/clean/films_clean.csv`.
+
+**Decided by Tanner (needs Matt's sign-off where marked)** — proposals in `A10_contract_amendments_PROPOSED.md`:
+- **A7 (Matt):** label = **US box office < 1.25× budget**; population = films released in the US. Reason: 618 "worldwide" revenues are really US-only, and the goal is the US market. Replaces A3 (2.5× worldwide).
+- **A6 (Matt):** timing rule = anything **controllable before release** (not "before production"). Opens distributor, rating, release date, final budget/runtime.
+- A1 keep 2000–2023; A2 keep $1M floor + $100K sensitivity rerun; A4 re-open inputs; A5 COVID stress test still open.
+- Outliers (§8e/8h): drop TMDB-only films (929), runtime < 60 or 400+, TV movies, video games, *The Bear*, editions/director's cuts, revenue = budget, tiny revenue without an MPAA rating, 4 wrong foreign budgets. Keep theatrical concert films and the Music genre. Use The Numbers' budget when TMDB differs > 2×.
+- Fills (§9): Wikidata snapshot fills director/writer/source; new `source_group` (Comic/Book/Real life/Remake/Other adaptation/Original), 98% filled, origin in `source_group_src`. MPAA blank → NR (keep flag); country from language; blank franchise = none. Creative type and distributor stay blank with flags.
+- New population after all of this: **4,942 films**, ~67% losers under A7.
 
 **Open issues:**
-- **Step 12 must decide the label repairs:** revenue entry errors (24 films < $1K, 244 < $100K, §3k rows 1–2) and 396 matched films whose TMDB revenue equals RT domestic (87% labelled losers vs 57%). Plus the S4 missing-revenue check.
-- Loser base rate 64.6% → capture ceiling ≈ 31% at 20% capacity. Contract kept as is (§3k row 3); state the ceiling in the report.
-- The original A10 session recordings in Claude's A7 project folder (`~/.claude/projects/c--…-Notebooks-A7/`: b61e1644, 6c37400e, fde2d022 `.jsonl`) can now be deleted; copies are in `ai_logs/raw/`. Ask Matt first.
-- README `[colleague name]` placeholder must be filled before packaging (must match course roster).
-- Notebook was last run without a kernel restart (counters start at 32). Fine for now; Phase 7 needs a fresh Run All.
+- Build bug: 46 late-2023 films (incl. *The Marvels*, *Wish*, *Wonka*) skipped because TMDB still marked them "Post Production"; their The Numbers figures attached to same-title junk entries. 36 films have another film's director (wrong same-title match, mostly via Rotten Tomatoes).
+- Company and distributor names need standardizing/grouping (§6h).
+- README `[colleague name]` placeholder; old A7-folder recordings can be deleted (ask Matt).
 
-**First actions next session:** run the Start checklist (below); then step 11: for matched films, compare RT review `creationDate` with the TMDB release date (how many reviews, and for how many films, are dated before release?). Ask Matt to close the notebook tab before writing cells.
-**Finalize previous transcript with:**
+**First actions next session:** Matt reviews A6/A7 and `Edwards-A10.ipynb` §6–9. Then promote the agreed rules and fills into `01_clean_dataset.ipynb`, fix the late-2023 and same-title matching in `00_build_dataset.ipynb`, and switch the label to US box office.
+**Finalize this transcript with** (then re-apply the email redaction: `perl -pi -e 's/[\w.+-]+\@cricut\.com/[redacted email]/g' ai_logs/Edwards_ClaudeCode_data-exploration-cleaning_2026-11-24.md ai_logs/raw/Edwards_ClaudeCode_data-exploration-cleaning_2026-11-24.jsonl`; the repo is public):
+`python -I tools/export_session.py cae33d13-a6d1-4106-9e4d-52dd46dca9db Edwards_ClaudeCode_data-exploration-cleaning_2026-11-24 "Tanner Edwards - Claude Code - Unified dataset, film_uid and reviews table, cleaning notebook, contract amendments A1-A7, input review, outlier rules, missing-value fills with Wikidata (2026-11-21 to 11-24)"`
+Matt's previous transcript (fb9b8a75) is still PARTIAL. Finalize it with:
 `python -I tools/export_session.py fb9b8a75-3b2f-4715-8305-2e18a342c311 Sorensen_ClaudeCode_profile-and-join_2026-11-18 "Matt Sorensen - Claude Code - A10 procedure test, wrong-folder fix, univariate profile (step 9), TMDB-RT join and hand-check (step 10), team summary (2026-11-18 to 11-19)"`
 
 ## Session procedure
@@ -138,3 +142,4 @@ Don't use **File → Open Recent** or double-click workspace files. Always use *
 - 2026-11-18: Separated A10 from the A7 folder it was first launched from: Claude memory moved to the A10_Group project, A10 notes removed from A7's memory. A7 assignment files untouched. From now on, launch Claude Code from A10_Group.
 - 2026-11-18: Session 6c37400e ended with the new End checklist (handoff rewritten, transcript exported as PARTIAL). Next session doubles as the procedure test.
 - 2026-11-18: Session fb9b8a75: procedure test passed. A wrong-folder start (fde2d022, launched in A7 via a stray workspace file) was diagnosed and logged; guard added to A7 memory; simple start/end steps added to Session procedure. Phase 2 step 9 complete (notebook §3; dispositions §3k approved; gate CONTINUE). Step 10 complete 2026-11-19 (join 81.0%, hand-check 0/50 wrong, S3 not triggered). Executive summary for teammates published as a private artifact. Next: step 11 (early-review test).
+- 2026-11-21 to 11-24: Tanner's session cae33d13: unified dataset with film_uid and reviews table, cleaning notebook `01_clean_dataset.ipynb`, amendments A1–A7 proposed, every input reviewed, outlier rules and missing-value fills decided (Edwards §4–9), Wikidata people snapshot added. Merged to main via PRs #3–#5. Next: Matt signs off A6/A7; promote rules into 01_clean; fix build matching.
