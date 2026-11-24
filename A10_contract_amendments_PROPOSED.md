@@ -6,9 +6,10 @@ Proposed by Tanner Edwards, 2026-11-23. **Not in effect.** These are changes to 
 |---|---|---|---|---|
 | A1 | Population: years | 2000–2023, no reason stated | **Keep 2000–2023**, and record the reason | Proposed |
 | A2 | Population: budget floor | Budget ≥ $1M, no sensitivity check | **Keep $1M for the main analysis; rerun at $100K as a sensitivity check.** Budgets under $1K are data errors and are handled in cleaning. | Proposed |
-| A3 | Outcome: 2.5× multiple | "Commonly cited rule of thumb" | **Keep 2.5×**, labeled as an industry convention, not a data finding | Proposed |
+| A3 | Outcome: 2.5× multiple | "Commonly cited rule of thumb" | **Keep 2.5×**, labeled as an industry convention, not a data finding | Replaced by A7 |
 | A4 | Allowed inputs | Fixed list of 8 | **Re-open after cleaning.** Add every input that meets the A6 timing rule. | Open: list to follow |
 | A5 | 2020–2023 stress test | COVID years reported separately | Not discussed yet | Open |
+| A7 | Outcome and population | Worldwide revenue < 2.5× budget; films with reported worldwide revenue | **US box office < 1.25× budget; films released in the US** | Proposed |
 | A6 | Decision time / timing rule | At financing, before production | **Before release.** Any variable that can be controlled before the film releases is allowed. | Proposed |
 
 ## A1. Keep 2000–2023, with a reason
@@ -56,3 +57,20 @@ The frozen list allows 8 inputs. The timing rule changes under A6: **anything th
 **Gray area to settle:** things known before release but not controlled by the studio, e.g. pre-release critic reviews (the reviews table marks these as `before_release`), festival buzz, and TMDB keywords. Proposed: still prohibited, because they aren't controlled and are often recorded after release.
 
 **Also changes:** `README.md`, `CLAUDE.md`/`AGENTS.md` and `FEATURE_IDEAS.md` state the "before production" rule; they're updated once Matt agrees.
+
+## A7. Label on US box office, at 1.25× budget
+**Proposed by Tanner, 2026-11-24.**
+
+**Goal:** predict which films will make money **in the US**. That includes foreign films released in the US.
+
+**New label:** a film is a money-loser if its **US box office < 1.25× its production budget**.
+
+**Reason:**
+- **Fits the goal.** The question is the US market, not the world.
+- **The data is better.** US box office is filled for 84% of films after cleaning (93% of US films). Worldwide revenue looks complete, but for 618 films it is really the US gross only, so those films are wrongly labeled losers (89–98% vs 62–70%).
+- **1.25× matches the old rule.** The US is about half of worldwide box office (median 52%), so 1.25× US ≈ 2.5× worldwide. Tanner: "We're here to make money, not waste our time." About 67% of films are losers under this label, the same share as before.
+- 1.25× is still an industry convention, not a data finding (as A3 said); the report shows 1× and 1.5× next to it.
+
+**New population:** films released in the US, i.e. with a reported US box office. Foreign films without a US release fall out.
+
+**Also changes:** the label column moves from `fin_revenue` to `domestic_gross` (`domestic_gross` stops being "post-release: checks only"). A2's S4 numbers and the split sizes need rerunning.
