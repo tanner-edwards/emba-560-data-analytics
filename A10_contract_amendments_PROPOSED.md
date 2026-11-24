@@ -1,16 +1,16 @@
 # A10 Purpose Contract: proposed amendments (DRAFT)
 
-Proposed by Tanner Edwards, 2026-11-23. **Not in effect.** These are changes to `A10_purpose_contract_FROZEN_2026-11-17.md`, which was frozen by Matt alone. Each one takes effect only when Tanner and Matt both agree. Agreed items are then copied into the contract's **Amendments** section with the date and reason.
+Proposed by Tanner Edwards, 2026-11-23. **All agreed by Tanner and Matt on 2026-11-24 and copied into the contract's Amendments section** (A5: keep the separate stress test). Kept as the evidence record. These are changes to `A10_purpose_contract_FROZEN_2026-11-17.md`, which was frozen by Matt alone. Each one takes effect only when Tanner and Matt both agree. Agreed items are then copied into the contract's **Amendments** section with the date and reason.
 
 | # | Contract field | Current | Proposed | Status |
 |---|---|---|---|---|
-| A1 | Population: years | 2000–2023, no reason stated | **Keep 2000–2023**, and record the reason | Proposed |
-| A2 | Population: budget floor | Budget ≥ $1M, no sensitivity check | **Keep $1M for the main analysis; rerun at $100K as a sensitivity check.** Budgets under $1K are data errors and are handled in cleaning. | Proposed |
-| A3 | Outcome: 2.5× multiple | "Commonly cited rule of thumb" | **Keep 2.5×**, labeled as an industry convention, not a data finding | Replaced by A7 |
-| A4 | Allowed inputs | Fixed list of 8 | **Re-open after cleaning.** Add every input that meets the A6 timing rule. | Open: list to follow |
-| A5 | 2020–2023 stress test | COVID years reported separately | Not discussed yet | Open |
-| A7 | Outcome and population | Worldwide revenue < 2.5× budget; films with reported worldwide revenue | **US box office < 1.25× budget; films released in the US** | Proposed |
-| A6 | Decision time / timing rule | At financing, before production | **Before release.** Any variable that can be controlled before the film releases is allowed. | Proposed |
+| A1 | Population: years | 2000–2023, no reason stated | **Keep 2000–2023**, and record the reason | Agreed 2026-11-24 |
+| A2 | Population: budget floor | Budget ≥ $1M, no sensitivity check | **Keep $1M for the main analysis; rerun at $100K as a sensitivity check.** Budgets under $1K are data errors and are handled in cleaning. | Agreed 2026-11-24 |
+| A3 | Outcome: 2.5× multiple | "Commonly cited rule of thumb" | **Keep 2.5×**, labeled as an industry convention, not a data finding | Agreed 2026-11-24; superseded by A7 |
+| A4 | Allowed inputs | Fixed list of 8 | **Re-open after cleaning.** Add every input that meets the A6 timing rule. | Agreed 2026-11-24 |
+| A5 | 2020–2023 stress test | COVID years reported separately | **Keep** 2020–2023 as a separately reported stress test | Agreed 2026-11-24 |
+| A7 | Outcome and population | Worldwide revenue < 2.5× budget; films with reported worldwide revenue | **US box office < 1.25× budget; films released in the US** | Agreed 2026-11-24 |
+| A6 | Decision time / timing rule | At financing, before production | **Before release.** Any variable that can be controlled before the film releases is allowed. | Agreed 2026-11-24 |
 
 ## A1. Keep 2000–2023, with a reason
 **Reason:** 24 years of films is enough to be relevant to today's market. Before 2000, the data gets thin, and dollar amounts would need inflation adjustment to compare fairly. The end year stays at 2023 because later films hadn't finished their theatrical run when the data was pulled.
@@ -39,7 +39,8 @@ Proposed by Tanner Edwards, 2026-11-23. **Not in effect.** These are changes to 
 ## A4. Inputs: re-open the allowed list (pending)
 The frozen list allows 8 inputs. The timing rule changes under A6: **anything that can be controlled before release.** The list itself is re-opened. After cleaning, every column that meets the rule is proposed here with its evidence. Candidates so far: MPAA rating, source material, creative type, production method, writer, cast, distributor, franchise / sequel (see `FEATURE_IDEAS.md`).
 
-## A5. COVID-era stress test (not discussed yet)
+## A5. COVID-era stress test
+Agreed 2026-11-24: keep 2020–2023 as a separately reported stress test. COVID changed how people watch films, so those years are expected to differ.
 
 ## A6. Move the decision time from "before production" to "before release"
 **Proposed by Tanner, 2026-11-24.**

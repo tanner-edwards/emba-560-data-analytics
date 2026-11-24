@@ -71,4 +71,14 @@ The screen must never quietly become:
 - [x] Instructor approval of the path: not required for this project (confirmed by Matt, 2026-11-17).
 
 ## Amendments
-None yet.
+All agreed by Tanner Edwards and Matt Sorensen, 2026-11-24. Proposals and evidence: `A10_contract_amendments_PROPOSED.md`. Where an amendment conflicts with a field above, the amendment wins.
+
+| # | Field | Change | Reason |
+|---|---|---|---|
+| A1 | Population: years | **Keep 2000–2023.** | 24 years is relevant to today's market. Earlier years are thin and would need inflation adjustment; later films hadn't finished their run when the data was pulled. |
+| A2 | Population: budget floor | **Keep budget ≥ $1M** for the main analysis; **rerun the final model at ≥ $100K** as a sensitivity check. Budgets under $1K are data errors, handled in cleaning. | Low-budget films carry the biggest margins, but revenue is missing for 83% of $100K–$1M films, mostly losers (S4 rerun), so they can't be the main population. |
+| A3 | Outcome: multiple | 2.5× is labeled an **industry convention**, not a data finding. **Superseded by A7.** | Rule of thumb for marketing and the exhibitor's share. |
+| A4 | Allowed inputs | The fixed list is **re-opened**: any column that meets the A6 timing rule may be an input, chosen with evidence after cleaning. | Many useful pre-release inputs were not on the list (MPAA rating, source material, writer, distributor, franchise…). |
+| A5 | 2020–2023 stress test | **Unchanged:** 2020–2023 is reported separately as a stress test. | COVID changed theatrical behavior; those years are expected to differ. |
+| A6 | Decision and decision time | From "at financing, before production" to **before release**: any variable that can be **controlled before the film releases** is allowed. Things known before release but not controlled by the studio (pre-release reviews, festival buzz, TMDB keywords as inputs) stay prohibited, as does anything only known after release. Unit becomes "one feature film before release." | The line between financing and release is a timing detail; release date, distributor, rating, final budget and runtime are all studio choices made before release. |
+| A7 | Outcome and population | Positive class = **"money-loser": US box office < 1.25 × budget** (sensitivity 1× and 1.5×). Population = films **released in the US** (reported US box office), budget ≥ $1M, 2000–2023, after the cleaning rules in `01_clean_dataset.ipynb`. | The goal is profit in the US market, including foreign films released there. "Worldwide" revenue was really US-only for 618 films, inflating losers. The US is about half of worldwide box office, so 1.25× US ≈ 2.5× worldwide. |

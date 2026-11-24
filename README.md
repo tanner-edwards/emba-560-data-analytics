@@ -34,12 +34,13 @@ Run these top to bottom, in this order. Each step reads only the output of the s
 | 1 | `tools/get_data.py` | Kaggle, Box Office Mojo | `data/raw/` | Once per machine, or when a source is added |
 | 2 | `notebooks/00_build_dataset.ipynb` (**assemble**) | `data/raw/` | `data/clean/films_unified.csv`, `data/clean/reviews_unified.csv` | You pulled changes to it, or step 1 re-ran |
 | 3 | `notebooks/01_clean_dataset.ipynb` (**clean**) | `films_unified.csv` | `data/clean/films_clean.csv`, `data/clean/films_clean_columns.csv` | You pulled changes to it, or step 2 re-ran |
-| 4 | Your notebook (`<LastName>-A10.ipynb`) or `A10-master.ipynb` | `films_clean.csv` (Data Understanding reads `films_unified.csv`) | nothing shared | Any time |
+| 4 | Your notebook (`<LastName>-A10.ipynb`) or `A10-master.ipynb` (CRISP-DM: business understanding, EDA, data preparation, modeling…) | `films_clean.csv` | nothing shared | Any time |
 
 **Rule of thumb:** if you pulled changes to step N, rerun step N and every step after it.
 
 - **Assemble vs clean:** `00` only joins sources (one row per film, every source's columns side by side). `01` combines repeated columns into one per fact, standardizes formats and adds missing flags. It never drops films.
 - `films_clean_columns.csv` lists every column's group and role (key, input, label, description, source detail). Only `input` columns (and `fin_budget`) can go into a model.
+- **Model rows:** `in_population` = True (4,933 films: released in the US, 2000–2023, budget ≥ $1M, after the cleaning rules). **Label:** `loser` = US box office < 1.25 × budget (contract amendment A7); `us_multiple` for the 1× / 1.5× checks. Films that fail a cleaning rule keep an `exclude_reason`.
 
 Behind a TLS-inspecting proxy (e.g. Zscaler), `get_data.py` uses `truststore` so Python trusts the OS certificate store.
 
