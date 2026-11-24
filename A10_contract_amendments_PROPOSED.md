@@ -7,8 +7,9 @@ Proposed by Tanner Edwards, 2026-11-23. **Not in effect.** These are changes to 
 | A1 | Population: years | 2000–2023, no reason stated | **Keep 2000–2023**, and record the reason | Proposed |
 | A2 | Population: budget floor | Budget ≥ $1M, no sensitivity check | **Keep $1M for the main analysis; rerun at $100K as a sensitivity check.** Budgets under $1K are data errors and are handled in cleaning. | Proposed |
 | A3 | Outcome: 2.5× multiple | "Commonly cited rule of thumb" | **Keep 2.5×**, labeled as an industry convention, not a data finding | Proposed |
-| A4 | Allowed inputs | Fixed list of 8 | **Re-open after cleaning.** Add every input known at the financing decision. | Open: list to follow |
+| A4 | Allowed inputs | Fixed list of 8 | **Re-open after cleaning.** Add every input that meets the A6 timing rule. | Open: list to follow |
 | A5 | 2020–2023 stress test | COVID years reported separately | Not discussed yet | Open |
+| A6 | Decision time / timing rule | At financing, before production | **Before release.** Any variable that can be controlled before the film releases is allowed. | Proposed |
 
 ## A1. Keep 2000–2023, with a reason
 **Reason:** 24 years of films is enough to be relevant to today's market. Before 2000, the data gets thin, and dollar amounts would need inflation adjustment to compare fairly. The end year stays at 2023 because later films hadn't finished their theatrical run when the data was pulled.
@@ -35,6 +36,23 @@ Proposed by Tanner Edwards, 2026-11-23. **Not in effect.** These are changes to 
 **Reason:** 2.5× is a rule of thumb, not something the data shows. Theaters keep roughly half the box office, and marketing often costs about as much as production, so a film needs about 2–2.5× its budget to break even. The report must say that the threshold is an industry convention, cite a source for it, and show the 1×, 2× and 3× sensitivity results next to it.
 
 ## A4. Inputs: re-open the allowed list (pending)
-The frozen list allows 8 inputs. The rule behind it stays: **only information known at the financing decision, before production.** The list itself is re-opened. After cleaning, every column that meets the rule is proposed here with its evidence. Candidates so far: MPAA rating, source material, creative type, production method, writer, cast, distributor, franchise / sequel (see `FEATURE_IDEAS.md`).
+The frozen list allows 8 inputs. The timing rule changes under A6: **anything that can be controlled before release.** The list itself is re-opened. After cleaning, every column that meets the rule is proposed here with its evidence. Candidates so far: MPAA rating, source material, creative type, production method, writer, cast, distributor, franchise / sequel (see `FEATURE_IDEAS.md`).
 
 ## A5. COVID-era stress test (not discussed yet)
+
+## A6. Move the decision time from "before production" to "before release"
+**Proposed by Tanner, 2026-11-24.**
+
+**Rule:** any variable that can be **controlled before the film releases** is a fair input. Anything that only exists after release (box office, scores, votes, reviews) stays prohibited.
+
+**Reason:** the line between financing and release is mostly a timing detail. Release date, distributor, rating, final runtime and final budget are all set before release and are things the studio controls. Many of them are already treated as "planned" values under the current rule.
+
+**What it changes in the contract**
+- **Decision:** from "at the financing stage, before production" to "before release." The screen can be run at greenlight and rerun before release as the controllable values are set.
+- **Decision time / allowed inputs:** add distributor, MPAA rating, final runtime and budget, cast, release date, production method, and similar pre-release choices.
+- **Unit:** "one feature film at its financing decision" becomes "one feature film before release."
+- **Weakest link 4** (planned vs actual budget and runtime) mostly goes away: final values are known before release.
+
+**Gray area to settle:** things known before release but not controlled by the studio, e.g. pre-release critic reviews (the reviews table marks these as `before_release`), festival buzz, and TMDB keywords. Proposed: still prohibited, because they aren't controlled and are often recorded after release.
+
+**Also changes:** `README.md`, `CLAUDE.md`/`AGENTS.md` and `FEATURE_IDEAS.md` state the "before production" rule; they're updated once Matt agrees.
