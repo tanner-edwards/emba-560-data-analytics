@@ -67,6 +67,7 @@ Behind a TLS-inspecting proxy (e.g. Zscaler), `get_data.py` uses `truststore` so
 | `boxofficemojo/revenues_per_day.csv.gz` | [tjwaterman99/boxofficemojo-scraper](https://github.com/tjwaterman99/boxofficemojo-scraper) (GitHub release, not Kaggle) | Daily **domestic** grosses, 2000–2025, about 7.2k titles. `id` is per row, not per film; join on title + year. |
 | `the_numbers/Top Movies (Cleaned Data).csv` | [michaelmatta0/movies-ultimate-metrics-features-and-metadata](https://www.kaggle.com/datasets/michaelmatta0/movies-ultimate-metrics-features-and-metadata) | Scraped from the-numbers.com: production budget, domestic/international/**worldwide** gross, production companies, MPAA, source, franchise. About 6.6k films. |
 | `wikidata/wikidata_film_financials_2026-11-21.csv` | Wikidata SPARQL query `tools/wikidata_films.rq`, run 2026-11-21. SHA-256 `c2fa656a…1ef9dd7` | USD budget and box office for 2,570 films with a TMDB id. **Committed to git**: Wikidata is live with no versions, so this snapshot is the source of record. License: CC0. |
+| `wikidata/wikidata_film_people_2026-11-24.csv` | `python tools/get_wikidata_people.py` (query `tools/wikidata_people.rq`), run 2026-11-24 after `00_build`. SHA-256 `75a54270…4777be2d2` | Director, writer, runtime and "based on" for 6,486 usable films, by TMDB id. Used to fill blanks and to flag wrong matches. **Committed to git** (same reason). License: CC0. |
 
 Licenses, access dates and grain are recorded in the Data Receipt (`report/`, plan step 8).
 

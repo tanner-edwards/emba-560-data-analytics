@@ -1,0 +1,18 @@
+# Wikidata: people, runtime and "based on" for films, looked up by TMDB id (P4947).
+# Run by tools/get_wikidata_people.py in batches; {IDS} is replaced with a VALUES list.
+# Snapshot saved to data/raw/wikidata/ (committed; Wikidata is live and has no versions).
+SELECT ?tmdb (SAMPLE(?f) AS ?item)
+ (GROUP_CONCAT(DISTINCT ?dirL; separator="|") AS ?wd_director)
+ (GROUP_CONCAT(DISTINCT ?wrL; separator="|") AS ?wd_writer)
+ (MAX(?dur) AS ?wd_runtime_min)
+ (GROUP_CONCAT(DISTINCT ?bL; separator="|") AS ?wd_based_on)
+ (GROUP_CONCAT(DISTINCT ?btL; separator="|") AS ?wd_based_on_type)
+WHERE {
+  VALUES ?tmdb { {IDS} }
+  ?f wdt:P4947 ?tmdb .
+  OPTIONAL { ?f wdt:P57 ?d . ?d rdfs:label ?dirL FILTER(LANG(?dirL) = "en") }
+  OPTIONAL { ?f wdt:P58 ?w . ?w rdfs:label ?wrL FILTER(LANG(?wrL) = "en") }
+  OPTIONAL { ?f wdt:P2047 ?dur }
+  OPTIONAL { ?f wdt:P144 ?b . ?b rdfs:label ?bL FILTER(LANG(?bL) = "en")
+             OPTIONAL { ?b wdt:P31 ?bt . ?bt rdfs:label ?btL FILTER(LANG(?btL) = "en") } }
+} GROUP BY ?tmdb
