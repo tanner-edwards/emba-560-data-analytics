@@ -2,6 +2,70 @@
 
 Proposed by Tanner Edwards, 2026-11-23. **Not in effect.** These are changes to `A10_purpose_contract_FROZEN_2026-11-17.md`, which was frozen by Matt alone. Each one takes effect only when Tanner and Matt both agree. Agreed items are then copied into the contract's **Amendments** section with the date and reason.
 
+## A8. Change the decision to the studio's pre-release review
+**Proposed by Matt, 2026-11-24. DRAFT, not in effect until Matt and Tanner both approve this wording.** Matt reports that Tanner agrees to the change of question.
+
+**Question the model answers:** Will this movie be successful, meaning worldwide revenue of at least 2.5× its budget?
+
+**Decision it supports:** Before release, which upcoming films are most likely to lose money, so the studio can review their release and marketing plans first?
+
+**Reason:** The team chose to predict a film's success before release instead of whether a financier should agree to make it. The problem scan for candidate #1 already described a decision made "before a film is released"; the frozen contract had narrowed it to financing. At release, more of the film's plan is known and the studio can still change its release and marketing.
+
+### Contract fields that change
+
+| Field | Frozen contract | Amended |
+|---|---|---|
+| **Decision** | At financing, flag / proceed / pass | Before release, the studio decides which films get a deeper review of the release plan and marketing plan, and which proceed on standard review |
+| **Action** | 20% highest-risk projects per year go to deep review | Each year, the 20% of films with the highest predicted risk of losing money get the deeper review. The rest proceed as planned. A person makes every final decision. |
+| **Owner** | Head of Acquisitions at a film co-financier | The studio executive responsible for release and marketing. Still a stand-in role with no real stakeholder interviews; the report says so. |
+| **Decision time** | Before production | When the release and marketing plans can still be changed: the film is finished or nearly so, and no public release results exist |
+| **Unit** | One feature film at its financing decision | One feature film at its pre-release review |
+| **Outcome** | Money-loser: worldwide revenue < 2.5× budget | **Same cutoff.** Successful = worldwide revenue ≥ 2.5× budget; money-loser = everything below. The model still ranks by money-loser risk. 2.5× is labeled an industry convention; 1×, 2× and 3× sensitivity checks stay. |
+| **Allowed inputs** | 8 inputs known at financing | The same 8, using values known before release, plus MPAA rating, distributor, writer, source material, creative type, production method and franchise (conditions below) |
+| **Value** | Loss avoided on flagged deals | (extra money-losers caught × loss avoided per film by a changed plan × share of flagged plans changed) − (successful films flagged × cost of an unneeded review). Every term stays a blank for the owner; the report shows break-even values. |
+| **Rival framing** | Director premium | The original financing screen, limited to inputs known before production |
+
+### Input conditions
+- **Franchise:** count a film as franchise only if an earlier film in that franchise had been released. Source data tags first films in hindsight (*Iron Man*, 2008).
+- **Track records:** use only films released before this one.
+- **Coverage:** MPAA rating, source material and creative type are often blank for small films, so each carries a missing flag. No rows are dropped for blanks.
+- **Still prohibited:** box office, opening results, scores, votes, popularity, all reviews (including pre-release reviews), festival buzz and TMDB keywords. Keywords can't be used to fill another input either.
+
+### Prohibited uses
+1. **Hiring or blacklisting people:** unchanged.
+2. **Automatic reject** becomes: never an automatic cancellation, shelving or marketing cut.
+3. **Causal claim** also covers release and marketing: the model shows which films are risky, not that changing the plan would fix them. The data has no marketing spend.
+4. **Outside its population:** unchanged.
+
+### Limitations to report
+- The production budget is already spent by this point. The screen can only improve what is still undecided.
+- The data records what finally happened (date, distributor, rating), which may differ from the plan at review time. Weakest link 4 is reduced, not removed.
+
+### What stays the same
+Population years and the $1M floor, the training / test / stress periods, baselines (a) and (b), the ≥ 5-point evidence bar, 20% capacity, and stop conditions S1–S4. Cleaning rules can't drop films because of their outcome (for example, only those with low revenue).
+
+### Effect on the other proposals
+| Proposal | Effect if A8 is approved |
+|---|---|
+| A3 | Accepted in substance (keep 2.5×, labeled a convention) |
+| A4 | Resolved by the input list above |
+| A6 | Replaced by A8's decision time |
+| A7 (US box office < 1.25×) | Not adopted as the main outcome or population. Can run as a sensitivity check. **Tanner to confirm.** |
+| A1, A2, A5 | Not affected; still need a decision |
+| Budgets and revenue from The Numbers / Wikidata | Not covered here; needs its own amendment |
+
+### What had been seen before this amendment
+No model had been fitted. The following had been looked at: loser rates overall and by period (**including the 2016–2019 test films**), by financial source, by Rotten Tomatoes match status, and for US and non-US films; returns for budgets below and above $1M; and a budget vs revenue chart. The success cutoff and evidence bar did not change.
+
+### Files to update after approval
+The contract's Amendments section (copy this in), `PLAN.md` Direction, `README.md`, `FEATURE_IDEAS.md`, both notebooks' introductions, and the `A10-master.ipynb` title. Each person edits their own notebook.
+
+### Approval
+- [ ] Matt Sorensen, date:
+- [ ] Tanner Edwards, date:
+
+## All other proposals
+
 | # | Contract field | Current | Proposed | Status |
 |---|---|---|---|---|
 | A1 | Population: years | 2000–2023, no reason stated | **Keep 2000–2023**, and record the reason | Proposed |
