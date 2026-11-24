@@ -1,11 +1,11 @@
 # A10 Purpose Contract: proposed amendments (DRAFT)
 
-Proposed by Tanner Edwards, 2026-11-23. **Not in effect.** These are changes to `A10_purpose_contract_FROZEN_2026-11-17.md`, which was frozen by Matt alone. Each one takes effect only when Tanner and Matt both agree. Agreed items are then copied into the contract's **Amendments** section with the date and reason.
+Proposed by Tanner Edwards, 2026-11-23. **A1–A7 approved 2026-11-24 and recorded in the contract; A8 is still a draft.** These are changes to `A10_purpose_contract_FROZEN_2026-11-17.md`, which was frozen by Matt alone. Each one takes effect only when Tanner and Matt both agree. Agreed items are then copied into the contract's **Amendments** section with the date and reason.
 
 ## A8. Change the decision to the studio's pre-release review
 **Proposed by Matt, 2026-11-24. DRAFT, not in effect until Matt and Tanner both approve this wording.** Matt reports that Tanner agrees to the change of question.
 
-**Question the model answers:** Will this movie be successful, meaning worldwide revenue of at least 2.5× its budget?
+**Question the model answers:** Will this movie be successful, meaning US box office of at least 1.25× its budget (A7)?
 
 **Decision it supports:** Before release, which upcoming films are most likely to lose money, so the studio can review their release and marketing plans first?
 
@@ -20,7 +20,7 @@ Proposed by Tanner Edwards, 2026-11-23. **Not in effect.** These are changes to 
 | **Owner** | Head of Acquisitions at a film co-financier | The studio executive responsible for release and marketing. Still a stand-in role with no real stakeholder interviews; the report says so. |
 | **Decision time** | Before production | When the release and marketing plans can still be changed: the film is finished or nearly so, and no public release results exist |
 | **Unit** | One feature film at its financing decision | One feature film at its pre-release review |
-| **Outcome** | Money-loser: worldwide revenue < 2.5× budget | **Same cutoff.** Successful = worldwide revenue ≥ 2.5× budget; money-loser = everything below. The model still ranks by money-loser risk. 2.5× is labeled an industry convention; 1×, 2× and 3× sensitivity checks stay. |
+| **Outcome** | Money-loser: worldwide revenue < 2.5× budget | **As A7.** Successful = US box office ≥ 1.25× budget; money-loser = everything below. The model ranks by money-loser risk. 1.25× is labeled an industry convention, with 1× and 1.5× shown next to it. Worldwide < 2.5× is rerun as a sensitivity check. |
 | **Allowed inputs** | 8 inputs known at financing | The same 8, using values known before release, plus MPAA rating, distributor, writer, source material, creative type, production method and franchise (conditions below) |
 | **Value** | Loss avoided on flagged deals | (extra money-losers caught × loss avoided per film by a changed plan × share of flagged plans changed) − (successful films flagged × cost of an unneeded review). Every term stays a blank for the owner; the report shows break-even values. |
 | **Rival framing** | Director premium | The original financing screen, limited to inputs known before production |
@@ -38,24 +38,25 @@ Proposed by Tanner Edwards, 2026-11-23. **Not in effect.** These are changes to 
 4. **Outside its population:** unchanged.
 
 ### Limitations to report
+- **Foreign films:** the label compares the whole budget with US box office only, so a film that earned its money abroad can count as a money-loser. The riskiest 20% may fill with non-US films. Report results separately for US and non-US films.
+- **Selection:** A7 keeps only films with a reported US box office, which is known only after release. Flops with no reported figure fall out, so S4 is rerun on the new population.
 - The production budget is already spent by this point. The screen can only improve what is still undecided.
 - The data records what finally happened (date, distributor, rating), which may differ from the plan at review time. Weakest link 4 is reduced, not removed.
 
 ### What stays the same
-Population years and the $1M floor, the training / test / stress periods, baselines (a) and (b), the ≥ 5-point evidence bar, 20% capacity, and stop conditions S1–S4. Cleaning rules can't drop films because of their outcome (for example, only those with low revenue).
+Population years and the $1M floor, the training / test / stress periods, baselines (a) and (b), the ≥ 5-point evidence bar, 20% capacity, and stop conditions S1–S4. Apart from A7's population rule, cleaning rules can't drop films because of their outcome (for example, only those with low revenue).
 
 ### Effect on the other proposals
 | Proposal | Effect if A8 is approved |
 |---|---|
-| A3 | Accepted in substance (keep 2.5×, labeled a convention) |
-| A4 | Resolved by the input list above |
-| A6 | Replaced by A8's decision time |
-| A7 (US box office < 1.25×) | Not adopted as the main outcome or population. Can run as a sensitivity check. **Tanner to confirm.** |
-| A1, A2, A5 | Not affected; still need a decision |
-| Budgets and revenue from The Numbers / Wikidata | Not covered here; needs its own amendment |
+| A4 | The input list above becomes A4's list |
+| A6 | Kept; A8 says who decides and what they decide |
+| A7 | Kept as the main outcome and population |
+| A1, A2, A3, A5 | Not affected |
+| Budgets and revenue from The Numbers / Wikidata | Not covered by A1–A8. A7 uses US box office from The Numbers, Box Office Mojo and Rotten Tomatoes, so the sources and their order need their own amendment. |
 
 ### What had been seen before this amendment
-No model had been fitted. The following had been looked at: loser rates overall and by period (**including the 2016–2019 test films**), by financial source, by Rotten Tomatoes match status, and for US and non-US films; returns for budgets below and above $1M; and a budget vs revenue chart. The success cutoff and evidence bar did not change.
+No model had been fitted. The following had been looked at: loser rates overall and by period (**including the 2016–2019 test films**), by financial source, by Rotten Tomatoes match status, and for US and non-US films; returns for budgets below and above $1M; and a budget vs revenue chart. **The outcome was changed (A7) after these were seen,** including the loser rate under the new label (about 67%). The evidence bar did not change.
 
 ### Files to update after approval
 The contract's Amendments section (copy this in), `PLAN.md` Direction, `README.md`, `FEATURE_IDEAS.md`, both notebooks' introductions, and the `A10-master.ipynb` title. Each person edits their own notebook.
@@ -68,13 +69,13 @@ The contract's Amendments section (copy this in), `PLAN.md` Direction, `README.m
 
 | # | Contract field | Current | Proposed | Status |
 |---|---|---|---|---|
-| A1 | Population: years | 2000–2023, no reason stated | **Keep 2000–2023**, and record the reason | Proposed |
-| A2 | Population: budget floor | Budget ≥ $1M, no sensitivity check | **Keep $1M for the main analysis; rerun at $100K as a sensitivity check.** Budgets under $1K are data errors and are handled in cleaning. | Proposed |
-| A3 | Outcome: 2.5× multiple | "Commonly cited rule of thumb" | **Keep 2.5×**, labeled as an industry convention, not a data finding | Replaced by A7 |
-| A4 | Allowed inputs | Fixed list of 8 | **Re-open after cleaning.** Add every input that meets the A6 timing rule. | Open: list to follow |
-| A5 | 2020–2023 stress test | COVID years reported separately | Not discussed yet | Open |
-| A7 | Outcome and population | Worldwide revenue < 2.5× budget; films with reported worldwide revenue | **US box office < 1.25× budget; films released in the US** | Proposed |
-| A6 | Decision time / timing rule | At financing, before production | **Before release.** Any variable that can be controlled before the film releases is allowed. | Proposed |
+| A1 | Population: years | 2000–2023, no reason stated | **Keep 2000–2023**, and record the reason | Approved 2026-11-24 |
+| A2 | Population: budget floor | Budget ≥ $1M, no sensitivity check | **Keep $1M for the main analysis; rerun at $100K as a sensitivity check.** Budgets under $1K are data errors and are handled in cleaning. | Approved 2026-11-24 |
+| A3 | Outcome: 2.5× multiple | "Commonly cited rule of thumb" | **Keep 2.5×**, labeled as an industry convention, not a data finding | Approved 2026-11-24; replaced by A7 |
+| A4 | Allowed inputs | Fixed list of 8 | **Re-open after cleaning.** Add every input that meets the A6 timing rule. | Approved 2026-11-24; list in A8 (draft) |
+| A5 | 2020–2023 stress test | COVID years reported separately | **Keep as is** | Approved 2026-11-24 |
+| A7 | Outcome and population | Worldwide revenue < 2.5× budget; films with reported worldwide revenue | **US box office < 1.25× budget; films released in the US** | Approved 2026-11-24 |
+| A6 | Decision time / timing rule | At financing, before production | **Before release.** Any variable that can be controlled before the film releases is allowed. | Approved 2026-11-24 |
 
 ## A1. Keep 2000–2023, with a reason
 **Reason:** 24 years of films is enough to be relevant to today's market. Before 2000, the data gets thin, and dollar amounts would need inflation adjustment to compare fairly. The end year stays at 2023 because later films hadn't finished their theatrical run when the data was pulled.
@@ -103,7 +104,8 @@ The contract's Amendments section (copy this in), `PLAN.md` Direction, `README.m
 ## A4. Inputs: re-open the allowed list (pending)
 The frozen list allows 8 inputs. The timing rule changes under A6: **anything that can be controlled before release.** The list itself is re-opened. After cleaning, every column that meets the rule is proposed here with its evidence. Candidates so far: MPAA rating, source material, creative type, production method, writer, cast, distributor, franchise / sequel (see `FEATURE_IDEAS.md`).
 
-## A5. COVID-era stress test (not discussed yet)
+## A5. COVID-era stress test
+Keep 2020–2023 as a separate, separately reported stress test, as in the frozen contract.
 
 ## A6. Move the decision time from "before production" to "before release"
 **Proposed by Tanner, 2026-11-24.**
