@@ -21,6 +21,9 @@ uv pip install --python .venv -r requirements.txt
 
 # 3. Download raw data from Kaggle into data/raw/ (about 1.3 GB, gitignored)
 .venv/bin/python tools/get_data.py      # Windows: .venv\Scripts\python tools\get_data.py
+
+# 4. Build the unified dataset: run notebooks/00_build_dataset.ipynb top to bottom
+#    -> data/clean/films_unified.csv and data/clean/reviews_unified.csv (gitignored)
 ```
 
 Behind a TLS-inspecting proxy (e.g. Zscaler), `get_data.py` uses `truststore` so Python trusts the OS certificate store.
@@ -46,8 +49,22 @@ Behind a TLS-inspecting proxy (e.g. Zscaler), `get_data.py` uses `truststore` so
 | `rotten_tomatoes_movies.csv` | [andrezaza/clapper-massive-rotten-tomatoes-movies-and-reviews](https://www.kaggle.com/datasets/andrezaza/clapper-massive-rotten-tomatoes-movies-and-reviews) | Director, writer, boxOffice (domestic) |
 | `stefanoleone992/rotten_tomatoes_movies.csv` | [stefanoleone992/rotten-tomatoes-movies-and-critic-reviews-dataset](https://www.kaggle.com/datasets/stefanoleone992/rotten-tomatoes-movies-and-critic-reviews-dataset) | Adds `actors`, `production_company`. Same filename as the andrezaza file but **different data**, hence the subfolder. |
 | `stefanoleone992/rotten_tomatoes_critic_reviews.csv` | (same as above) | Critic reviews |
+| `boxofficemojo/revenues_per_day.csv.gz` | [tjwaterman99/boxofficemojo-scraper](https://github.com/tjwaterman99/boxofficemojo-scraper) (GitHub release, not Kaggle) | Daily **domestic** grosses, 2000–2025, about 7.2k titles. `id` is per row, not per film; join on title + year. |
+| `the_numbers/Top Movies (Cleaned Data).csv` | [michaelmatta0/movies-ultimate-metrics-features-and-metadata](https://www.kaggle.com/datasets/michaelmatta0/movies-ultimate-metrics-features-and-metadata) | Scraped from the-numbers.com: production budget, domestic/international/**worldwide** gross, production companies, MPAA, source, franchise. About 6.6k films. |
+| `wikidata/wikidata_film_financials_2026-11-21.csv` | Wikidata SPARQL query `tools/wikidata_films.rq`, run 2026-11-21. SHA-256 `c2fa656a…1ef9dd7` | USD budget and box office for 2,570 films with a TMDB id. **Committed to git**: Wikidata is live with no versions, so this snapshot is the source of record. License: CC0. |
 
 Licenses, access dates and grain are recorded in the Data Receipt (`report/`, plan step 8).
+
+## Notebook workflow
+
+**Rules for everyone, including AI assistants working in this repo:**
+
+0. **Data comes from one place.** `notebooks/00_build_dataset.ipynb` merges all sources into `data/clean/films_unified.csv` (one row per film). Every other notebook starts by reading that file and never re-merges raw data. Rerun `00_build_dataset.ipynb` after pulling changes to it. It's team-owned: changes go through a PR.
+1. **Personal notebooks are for exploration.** Each person works in their own `notebooks/<LastName>-A10.ipynb` (e.g. `Sorensen-A10.ipynb`, `Edwards-A10.ipynb`). Only the owner edits it.
+2. **`notebooks/A10-master.ipynb` is the team's final notebook.** It's what gets submitted. Only work that is solid (verified, runs top to bottom, agreed by both members) moves into it.
+3. **Promoting work to the master:** copy the finished cells from your personal notebook into the matching section of the master, make them run standalone (no dependence on the personal notebook's state), Run All, then open a PR. The other member reviews before merging.
+4. **Never edit someone else's personal notebook,** and never write exploratory or half-finished work into the master.
+5. **Notebook outputs are stripped on commit** (`nbstripout`). Run `nbstripout --install` once after cloning (see Setup).
 
 ## Standing rules
 - `data/raw/` is never modified. All cleaning happens in notebooks and writes to `data/clean/`.
@@ -60,6 +77,7 @@ Licenses, access dates and grain are recorded in the Data Receipt (`report/`, pl
 | File | Description | Owner |
 |---|---|---|
 | `README.md` | This file | Tanner / Matt |
+| `FEATURE_IDEAS.md` | Running list of candidate model features with a time-order check for each. AI assistants add ideas automatically when they come up | Tanner / Matt |
 | `PLAN.md` | Project plan, live status checklist, session handoff, and session procedure | Matt |
 | `data/raw/TMDB_movie_dataset_v11.csv` | TMDB movie metadata, 1,538,765 rows (Kaggle: https://www.kaggle.com/datasets/asaniczka/tmdb-movies-dataset-2023-930k-movies, accessed 2026-11-17). License: ODC Attribution (ODC-By) 1.0, https://opendatacommons.org/licenses/by/1-0/ | Matt |
 | `data/raw/rotten_tomatoes_movie_reviews.csv` | Rotten Tomatoes critic reviews, 1,444,963 rows (Kaggle: https://www.kaggle.com/datasets/andrezaza/clapper-massive-rotten-tomatoes-movies-and-reviews, accessed 2026-11-17). License: CC0 1.0, https://creativecommons.org/publicdomain/zero/1.0/ | Matt |
@@ -70,7 +88,13 @@ Licenses, access dates and grain are recorded in the Data Receipt (`report/`, pl
 | `report/A10_problem_scan_2026-11-17.md` | CRISP-DM problem scan: 9 ranked candidate decisions (Phase 1, step 5) | Matt |
 | `A10_purpose_contract_FROZEN_2026-11-17.md` | Project Purpose Contract with red-team, frozen 2026-11-17 (Phase 1) | Matt |
 | `tools/export_session.py` | Exports a Claude Code session by id: `.md` to `ai_logs/`, raw `.jsonl` to `ai_logs/raw/` | Matt |
-| `tools/get_data.py` | Downloads the raw Kaggle datasets into `data/raw/` | Tanner |
+| `notebooks/A10-master.ipynb` | Team's final notebook; only promoted, verified work (see Notebook workflow) | Tanner / Matt |
+| `notebooks/00_build_dataset.ipynb` | Shared pipeline: matches The Numbers, Wikidata, Box Office Mojo and both RT files to TMDB and writes the unified dataset. Usable films 5,766 → 6,934 | Tanner / Matt |
+| `notebooks/Edwards-A10.ipynb` | Tanner's EDA; reads `films_unified.csv` | Tanner |
+| `data/clean/films_unified.csv` | **The unified dataset:** one row per 2000–2023 film, keyed by `film_uid` (`tmdb-<id>` or `tn-<The Numbers slug>`; stable across rebuilds), with any financial value (TMDB films plus The Numbers-only films, which have `in_tmdb` = False), all sources attached, combined `fin_budget` / `fin_revenue`, `usable` flag, per-film review summaries (`rtrev_*`, `slrev_*`). Column prefixes explained in `00_build_dataset.ipynb`. Rebuilt every run (not in git) | Tanner / Matt |
+| `data/clean/reviews_unified.csv` | One row per critic review (both RT review files stacked, `source` column), keyed by `film_uid`. Only exact copies of the same review are dropped. Post-release: descriptive only. Rebuilt every run (not in git) | Tanner / Matt |
+| `data/clean/edwards_tn_handcheck.csv` | 50 The Numbers ↔ TMDB matches (25 risky) for hand-checking. Written once, never overwritten | Tanner |
+| `tools/get_data.py` | Downloads all raw datasets (Kaggle + Box Office Mojo) into `data/raw/` | Tanner |
 
 ## AI conversations
 

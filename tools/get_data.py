@@ -5,6 +5,7 @@ Files are gitignored; every collaborator runs this once on their own machine.
 data/raw/ is treated as read-only after download — never edit these files.
 """
 import shutil
+import urllib.request
 from pathlib import Path
 
 import truststore
@@ -27,12 +28,32 @@ DATASETS = {
         "stefanoleone992",
         ["rotten_tomatoes_movies.csv", "rotten_tomatoes_critic_reviews.csv"],
     ),
+    # Scraped from the-numbers.com: budget, domestic/intl/worldwide gross, plus pre-release fields
+    "michaelmatta0/movies-ultimate-metrics-features-and-metadata": (
+        "the_numbers",
+        ["Top Movies (Cleaned Data).csv"],
+    ),
 }
 
+# Non-Kaggle direct downloads: (subfolder, filename) -> URL
+URL_FILES = {
+    # Box Office Mojo daily domestic grosses, scraped by github.com/tjwaterman99/boxofficemojo-scraper
+    ("boxofficemojo", "revenues_per_day.csv.gz"):
+        "https://github.com/tjwaterman99/boxofficemojo-scraper/releases/latest/download/revenues_per_day.csv.gz",
+}
 
 
 def main() -> None:
     RAW.mkdir(parents=True, exist_ok=True)
+    for (subdir, name), url in URL_FILES.items():
+        print(f"\n== {url}")
+        dst = RAW / subdir / name
+        dst.parent.mkdir(parents=True, exist_ok=True)
+        if dst.exists():
+            print(f"  exists, skipping: {name}")
+            continue
+        urllib.request.urlretrieve(url, dst)
+        print(f"  downloaded {name} ({dst.stat().st_size / 1e6:,.0f} MB)")
     for handle, (subdir, wanted) in DATASETS.items():
         print(f"\n== {handle}")
         src = Path(kagglehub.dataset_download(handle))
