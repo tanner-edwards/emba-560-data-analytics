@@ -1,8 +1,10 @@
 # A10 Purpose Contract: proposed amendments (DRAFT)
 
-Proposed by Tanner Edwards, 2026-11-23. **All agreed by Tanner and Matt on 2026-11-24 and copied into the contract's Amendments section** (A5: keep the separate stress test). Kept as the evidence record. These are changes to `A10_purpose_contract_FROZEN_2026-11-17.md`, which was frozen by Matt alone. Each one takes effect only when Tanner and Matt both agree. Agreed items are then copied into the contract's **Amendments** section with the date and reason.
+Proposed by Tanner Edwards, 2026-11-23. **A1–A7 all agreed by Tanner and Matt on 2026-11-24 and copied into the contract's Amendments section** (A5: keep the separate stress test). Kept as the evidence record. These are changes to `A10_purpose_contract_FROZEN_2026-11-17.md`, which was frozen by Matt alone. Each one takes effect only when Tanner and Matt both agree. Agreed items are then copied into the contract's **Amendments** section with the date and reason.
 
-## A8. Change the decision to the studio's pre-release review
+## A8. Change the decision to the studio's pre-release review (WITHDRAWN)
+**Withdrawn by Matt, 2026-11-24.** It conflicts with A6 and A7 as recorded in the contract (pull request #7), which govern. Kept as a record only; nothing below is in effect.
+
 **Proposed by Matt, 2026-11-24. DRAFT, not in effect until Matt and Tanner both approve this wording.** Matt reports that Tanner agrees to the change of question.
 
 **Question the model answers:** Will this movie be successful, meaning worldwide revenue of at least 2.5× its budget?
