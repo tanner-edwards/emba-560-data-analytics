@@ -2,7 +2,7 @@
 
 A running list of candidate model features for the A10 money-loser screen. Anyone (or their AI) can add to it. Ideas here are **not commitments**: each one still has to pass the contract's time-order rule before it's built.
 
-**Rule for every idea:** the feature may only use information known **at the financing decision, before production**. Nothing from the film's own release or from later films (no box office, scores, reviews, or "how many sequels it eventually got").
+**Rule for every idea:** the feature may only use information the studio **controls before the film's release** (contract amendment A6, 2026-11-24; was "before production"). Nothing from the film's own release, nothing outside the studio's control (pre-release reviews, buzz), and nothing from later films (no box office, scores, reviews, or "how many sequels it eventually got").
 
 **For AI assistants:** whenever a possible feature comes up in conversation, add it here using the template below without waiting to be asked, and tell the user you added it. Don't duplicate an existing idea; add to its notes instead.
 
@@ -16,7 +16,7 @@ A running list of candidate model features for the A10 money-loser screen. Anyon
 - **Why it might predict a money-loser:**
 - **Possible representation:** columns and types
 - **Data sources:** which columns in films_unified.csv (or what's missing)
-- **Time-order check:** is every input known before production?
+- **Time-order check:** is every input controlled by the studio before release?
 - **Open questions:**
 ```
 
