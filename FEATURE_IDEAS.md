@@ -107,3 +107,13 @@ A running list of candidate model features for the A10 money-loser screen. Anyon
 - **Data sources:** `director`, `writer`
 - **Time-order check:** OK if pair counts use earlier films only.
 - **Open questions:** repeat pairings will be rare.
+
+### Release day of week
+- **Added:** 2026-11-24 by Claude (from Edwards §10)
+- **Status:** idea
+- **What:** The weekday of the US release. Most films open on Friday; big films often open on a Wednesday before a holiday (*Frozen II* style Thanksgiving openings).
+- **Why it might predict a money-loser:** in the training years, Wednesday openings return a median 1.04x their budget in the US vs 0.66x for Friday.
+- **Possible representation:** `release_weekday` (category: Wednesday / Friday / other), or `holiday_opening` (bool)
+- **Data sources:** `release_date` in films_clean.csv (US date for 78% of films; TMDB fallback otherwise)
+- **Time-order check:** OK. The release date is set by the studio before release (A6).
+- **Open questions:** is this just a proxy for budget and holiday timing?
