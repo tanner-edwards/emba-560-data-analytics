@@ -7,24 +7,29 @@ Contents: [Handoff](#handoff) · [Session procedure](#session-procedure) · [Dir
 ## Handoff
 *Rewritten at every session end. Read this first when resuming.*
 
-**Last updated:** 2026-11-24, end of Tanner's session cae33d13 (Claude Code)
-**Where we are:** Data assembled and partly cleaned; Tanner reviewed every input and decided outlier and missing-value rules. All of it is in `notebooks/Edwards-A10.ipynb` §4–9 and merged to `main` (PR #5). **Not yet promoted** into the shared pipeline.
-**Run order (README):** `tools/get_data.py` → `00_build_dataset.ipynb` → `01_clean_dataset.ipynb` → personal notebooks. Analysis starts from `data/clean/films_clean.csv`.
+**Last updated:** 2026-11-26, Tanner's session cae33d13 (Claude Code), branch `tanner/label-eda`
+**Where we are:** Data Understanding is done. Amendments A1–A7 are agreed and in the contract; the cleaning rules run in `01_clean_dataset.ipynb` (population 4,933 films, label = US box office < 1.25× budget, 66.9% losers); `A10-master.ipynb` has CRISP-DM §1–3 (PR #7, merged). On `tanner/label-eda`, `Edwards-A10.ipynb` §10–16 compares every input to the return (training years 2000–15 only) and screens the feature ideas. A side study, `Edwards-A10-reviews.ipynb`, covers critic vs audience scores (description only).
+**Run order (README):** `tools/get_data.py` → `00_build_dataset.ipynb` → `01_clean_dataset.ipynb` → `A10-master.ipynb` / personal notebooks.
 
-**Decided by Tanner (needs Matt's sign-off where marked)** — proposals in `A10_contract_amendments_PROPOSED.md`:
-- **A7 (Matt):** label = **US box office < 1.25× budget**; population = films released in the US. Reason: 618 "worldwide" revenues are really US-only, and the goal is the US market. Replaces A3 (2.5× worldwide).
-- **A6 (Matt):** timing rule = anything **controllable before release** (not "before production"). Opens distributor, rating, release date, final budget/runtime.
-- A1 keep 2000–2023; A2 keep $1M floor + $100K sensitivity rerun; A4 re-open inputs; A5 COVID stress test still open.
-- Outliers (§8e/8h): drop TMDB-only films (929), runtime < 60 or 400+, TV movies, video games, *The Bear*, editions/director's cuts, revenue = budget, tiny revenue without an MPAA rating, 4 wrong foreign budgets. Keep theatrical concert films and the Music genre. Use The Numbers' budget when TMDB differs > 2×.
-- Fills (§9): Wikidata snapshot fills director/writer/source; new `source_group` (Comic/Book/Real life/Remake/Other adaptation/Original), 98% filled, origin in `source_group_src`. MPAA blank → NR (keep flag); country from language; blank franchise = none. Creative type and distributor stay blank with flags.
-- New population after all of this: **4,942 films**, ~67% losers under A7.
+**Main findings (Edwards §10–16, training years)**
+- **Feature winners:** distributor group (major / mini-major / specialty; +0.169 AUC over budget), director track record (share of earlier films that were hits; 0.469 → 0.586), MPAA rating (G 1.31× → NR 0.05×), US vs non-US (1.02× vs 0.11×), primary genre (+0.077), sequel (real: 3.25× the odds after period and budget), major producer (+0.040), source group (adaptations ≈ 1.0× vs originals 0.67×), Tanner's overlapping-rating competition (G↔PG↔PG-13↔R within ±6 weeks; +0.012).
+- **Not worth it:** budget tiers / percentiles, season flags, release-window competition by budget, tentpole flag, budget per minute, writer–director familiarity (it's track record), same-rating-only crowding, genre count.
+- **Warnings:** "was blank" flags likely leak the outcome (undocumented films flop); budget's effect is curved (under $10M loses, flat above); originals are higher-variance, mostly on the downside.
+- **Context:** big films make more dollars per film, small films more per dollar but ~70% lose; sequels went from 6% to 23% of releases and 15% to 55% of US box office; the 2010s recovery is mostly fewer small films in the data; Blumhouse (median 7.2×) drives the horror boom.
 
-**Open issues:**
-- Build bug: 46 late-2023 films (incl. *The Marvels*, *Wish*, *Wonka*) skipped because TMDB still marked them "Post Production"; their The Numbers figures attached to same-title junk entries. 36 films have another film's director (wrong same-title match, mostly via Rotten Tomatoes).
-- Company and distributor names need standardizing/grouping (§6h).
-- README `[colleague name]` placeholder; old A7-folder recordings can be deleted (ask Matt).
+**Open issues (pipeline)**
+- **Box Office Mojo gross is summed across same-title films** (*Frozen* 2010 shows Disney's $400M; *The Little Mermaid* 2018 shows $298M): match on title **and** year in `00_build_dataset.ipynb`.
+- Title matcher misses a few big films (*F9*, *The Butler*).
+- `audience_score` should prefer Rotten Tomatoes over TMDB vote average.
+- Distributor and company names still need full standardization.
+- **A7 vs Matt's A8 draft** (worldwide 2.5× label; bans keyword fills and outcome-based cleaning rules): settle with Matt.
 
-**First actions next session:** Matt reviews A6/A7 and `Edwards-A10.ipynb` §6–9. Then promote the agreed rules and fills into `01_clean_dataset.ipynb`, fix the late-2023 and same-title matching in `00_build_dataset.ipynb`, and switch the label to US box office.
+**Next steps**
+1. Fix the Box Office Mojo title+year join; rerun `00_build` → `01_clean`.
+2. Promote the winning features into `01_clean_dataset.ipynb`: sequel (franchise check + title rule, Edwards §13), distributor group, major producer, director/writer/company track record (earlier films only, "no history" group), rating-overlap competition, primary genre, release weekday.
+3. Re-test distributor group without its "blank" group; test the model with and without the `_missing` flags.
+4. Baseline (genre × budget-tier rule, training years) and the first model, with smoothed group rates for thin groups and a curved budget effect.
+5. Promote the agreed parts of Edwards §10–16 into `A10-master.ipynb` §2 (via PR).
 **Finalize this transcript with** (then re-apply the email redaction: `perl -pi -e 's/[\w.+-]+\@cricut\.com/[redacted email]/g' ai_logs/Edwards_ClaudeCode_data-exploration-cleaning_2026-11-24.md ai_logs/raw/Edwards_ClaudeCode_data-exploration-cleaning_2026-11-24.jsonl`; the repo is public):
 `python -I tools/export_session.py cae33d13-a6d1-4106-9e4d-52dd46dca9db Edwards_ClaudeCode_data-exploration-cleaning_2026-11-24 "Tanner Edwards - Claude Code - Unified dataset, film_uid and reviews table, cleaning notebook, contract amendments A1-A7, input review, outlier rules, missing-value fills with Wikidata (2026-11-21 to 11-24)"`
 Matt's previous transcript (fb9b8a75) is still PARTIAL. Finalize it with:
@@ -143,3 +148,4 @@ Don't use **File → Open Recent** or double-click workspace files. Always use *
 - 2026-11-18: Session 6c37400e ended with the new End checklist (handoff rewritten, transcript exported as PARTIAL). Next session doubles as the procedure test.
 - 2026-11-18: Session fb9b8a75: procedure test passed. A wrong-folder start (fde2d022, launched in A7 via a stray workspace file) was diagnosed and logged; guard added to A7 memory; simple start/end steps added to Session procedure. Phase 2 step 9 complete (notebook §3; dispositions §3k approved; gate CONTINUE). Step 10 complete 2026-11-19 (join 81.0%, hand-check 0/50 wrong, S3 not triggered). Executive summary for teammates published as a private artifact. Next: step 11 (early-review test).
 - 2026-11-21 to 11-24: Tanner's session cae33d13: unified dataset with film_uid and reviews table, cleaning notebook `01_clean_dataset.ipynb`, amendments A1–A7 proposed, every input reviewed, outlier rules and missing-value fills decided (Edwards §4–9), Wikidata people snapshot added. Merged to main via PRs #3–#5. Next: Matt signs off A6/A7; promote rules into 01_clean; fix build matching.
+- 2026-11-25 to 11-26: Tanner's session cae33d13 (branch `tanner/label-eda`): every input compared with the US return (Edwards §10–16, training years), feature ideas screened with cross-validated AUC, sequel title rule, bets-vs-success trends, reviews side notebook. Found the Box Office Mojo same-title gross bug. Next: fix the join, promote winning features to 01_clean, baseline and model.

@@ -68,6 +68,7 @@ A running list of candidate model features for the A10 money-loser screen. Anyon
 - **Data sources:** `production_companies`, `distributor` in films_clean.csv
 - **Time-order check:** Company: OK. Distributor: ⚠️ often signed after the film is made; only usable if known at financing (pre-sale deals).
 - **Open questions:** how to handle films with several distributors or companies (first listed? any major?).
+- **Production company track record (Edwards §16b, 2026-11-26):** Blumhouse (28 training films, median 7.16×, 82% winners) shows a single company's model can dominate. Better than name flags: each company's share of earlier films that were hits (earlier films only), like the director track record in §15n.
 
 ### Director / writer experience
 - **Added:** 2026-11-24 by Claude (from §7 review)
@@ -211,3 +212,13 @@ A running list of candidate model features for the A10 money-loser screen. Anyon
 - **Data sources:** `release_date`, `mpaa_rating`, `genres_all` of all real films with a US release date in films_clean.csv
 - **Time-order check:** OK under A6. Competitors' dates, ratings and genres are set before release (only their box office would leak, and it isn't used). Some films move dates late; report the limitation.
 - **Open questions:** window width; is it just a proxy for season (summer is crowded for everyone)? Compare with *Release-window competition*.
+
+### Faith-based films
+- **Added:** 2026-11-26 by Tanner (prompted by Angel Studios)
+- **Status:** idea (low priority)
+- **What:** Flag faith-based films and distributors (Angel Studios, Pure Flix, Affirm Films, Kendrick Brothers). *Sound of Freedom* (2023, Angel Studios) returned 12.3× its budget in the US; *God's Not Dead* 52.8×, *Courageous* 35×, *War Room* 22.6×.
+- **Why it might predict a money-loser:** micro-budgets plus a church-organized audience can produce huge multiples.
+- **Possible representation:** `faith_based` (bool) from distributor / producer names; not from TMDB keywords (banned as inputs).
+- **Data sources:** `distributor`, `production_companies`
+- **Time-order check:** OK. Distributor and producer are set before release (A6).
+- **Open questions:** Angel Studios has only 1 film in the population (*Sound of Freedom*, 2023, stress years); *His Only Son* (2023, $250K budget) is below the $1M floor and would only appear in the A2 $100K sensitivity check. A quick look (2000–15, faith keywords, description only) found a median of 0.95× and 35% winners: a few huge hits, but not a consistently better group. Too thin for the main model; maybe a sensitivity note.
