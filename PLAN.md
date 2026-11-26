@@ -17,19 +17,20 @@ Contents: [Handoff](#handoff) · [Session procedure](#session-procedure) · [Dir
 - **Warnings:** "was blank" flags likely leak the outcome (undocumented films flop); budget's effect is curved (under $10M loses, flat above); originals are higher-variance, mostly on the downside.
 - **Context:** big films make more dollars per film, small films more per dollar but ~70% lose; sequels went from 6% to 23% of releases and 15% to 55% of US box office; the 2010s recovery is mostly fewer small films in the data; Blumhouse (median 7.2×) drives the horror boom.
 
-**Open issues (pipeline)**
-- **Box Office Mojo gross is summed across same-title films** (*Frozen* 2010 shows Disney's $400M; *The Little Mermaid* 2018 shows $298M): match on title **and** year in `00_build_dataset.ipynb`.
-- Title matcher misses a few big films (*F9*, *The Butler*).
-- `audience_score` should prefer Rotten Tomatoes over TMDB vote average.
-- Distributor and company names still need full standardization.
-- **A7 vs Matt's A8 draft** (worldwide 2.5× label; bans keyword fills and outcome-based cleaning rules): settle with Matt.
+**Done 2026-11-26 (this PR):** Box Office Mojo grosses now split by theatrical run (no more same-title sums; *Frozen* 2010 is $246K, not $400M). Winning features built in `01_clean_dataset.ipynb` §12b. Baseline and first model in `Edwards-A10.ipynb` §18 (5-fold CV inside 2000–15; **test set still locked**): model AUC 0.757 vs baseline 0.609; capture @20% 28.1% vs 23.3%; precision @20% 94% vs 78%. Master notebook §2g, §3f, §4 updated.
+
+**Open issues**
+- **Capture metric ceiling:** with 67% losers, flagging 20% can catch at most 30% of losers; the contract's "+5 points over baseline" needs 28.3%. CV is at 28.1%. Decide with Matt: keep the bar, or judge on precision @20% / AUC / share of the ceiling.
+- **The screen mostly flags obvious small, foreign, limited-release films.** Consider evaluating inside budget tiers, or among major and mini-major releases only, where the decision is harder.
+- `_missing` flags leak the outcome (+0.041 AUC): excluded from the model; report as a sensitivity check.
+- **A7 vs Matt's A8 draft** (worldwide 2.5× label; bans keyword fills and outcome-based cleaning rules).
+- Title matcher misses a few big films (*F9*, *The Butler*); `audience_score` should prefer Rotten Tomatoes; distributor and company names not fully standardized.
+- Angel Studios: only *Sound of Freedom* is in the population; *The Shift* (2023) is missing because the TMDB snapshot predates it. All of their films are 2021–23 (stress test only).
 
 **Next steps**
-1. Fix the Box Office Mojo title+year join; rerun `00_build` → `01_clean`.
-2. Promote the winning features into `01_clean_dataset.ipynb`: sequel (franchise check + title rule, Edwards §13), distributor group, major producer, director/writer/company track record (earlier films only, "no history" group), rating-overlap competition, primary genre, release weekday.
-3. Re-test distributor group without its "blank" group; test the model with and without the `_missing` flags.
-4. Baseline (genre × budget-tier rule, training years) and the first model, with smoothed group rates for thin groups and a curved budget effect.
-5. Promote the agreed parts of Edwards §10–16 into `A10-master.ipynb` §2 (via PR).
+1. Matt: review this PR, the capture-ceiling question, and A7 vs A8.
+2. Tune the model and decide the evaluation subset (all films vs wide releases) on training CV only.
+3. Then a **single** evaluation on 2016–19 (bootstrap CI vs baseline) and the 2020–23 stress test; sensitivity at 1× / 1.5× and the $100K floor.
 **Finalize this transcript with** (then re-apply the email redaction: `perl -pi -e 's/[\w.+-]+\@cricut\.com/[redacted email]/g' ai_logs/Edwards_ClaudeCode_data-exploration-cleaning_2026-11-24.md ai_logs/raw/Edwards_ClaudeCode_data-exploration-cleaning_2026-11-24.jsonl`; the repo is public):
 `python -I tools/export_session.py cae33d13-a6d1-4106-9e4d-52dd46dca9db Edwards_ClaudeCode_data-exploration-cleaning_2026-11-24 "Tanner Edwards - Claude Code - Unified dataset, film_uid and reviews table, cleaning notebook, contract amendments A1-A7, input review, outlier rules, missing-value fills with Wikidata (2026-11-21 to 11-24)"`
 Matt's previous transcript (fb9b8a75) is still PARTIAL. Finalize it with:
