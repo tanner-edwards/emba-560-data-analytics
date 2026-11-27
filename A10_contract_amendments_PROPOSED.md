@@ -75,6 +75,7 @@ The contract's Amendments section (copy this in), `PLAN.md` Direction, `README.m
 | A5 | 2020–2023 stress test | COVID years reported separately | **Keep** 2020–2023 as a separately reported stress test | Agreed 2026-11-24 |
 | A7 | Outcome and population | Worldwide revenue < 2.5× budget; films with reported worldwide revenue | **US box office < 1.25× budget; films released in the US** | Agreed 2026-11-24 |
 | A6 | Decision time / timing rule | At financing, before production | **Before release.** Any variable that can be controlled before the film releases is allowed. | Agreed 2026-11-24 |
+| A9 | Decision and evidence standard | Flag the 20% riskiest films (money-losers) for deep review; capture rate of losers | **Pick the 20% most likely winners**; measure winners caught in the top 20% | Proposed |
 
 ## A1. Keep 2000–2023, with a reason
 **Reason:** 24 years of films is enough to be relevant to today's market. Before 2000, the data gets thin, and dollar amounts would need inflation adjustment to compare fairly. The end year stays at 2023 because later films hadn't finished their theatrical run when the data was pulled.
@@ -139,3 +140,26 @@ Agreed 2026-11-24: keep 2020–2023 as a separately reported stress test. COVID 
 **New population:** films released in the US, i.e. with a reported US box office. Foreign films without a US release fall out.
 
 **Also changes:** the label column moves from `fin_revenue` to `domestic_gross` (`domestic_gross` stops being "post-release: checks only"). A2's S4 numbers and the split sizes need rerunning.
+
+## A9. Frame the screen as picking winners
+**Proposed by Tanner, 2026-11-26. Needs Matt's agreement before it goes into the contract.**
+
+**Change:** the label stays the same (A7: US box office vs 1.25× budget), but the decision and evidence standard flip from losers to winners.
+
+| Field | Current (frozen + A7) | Proposed |
+|---|---|---|
+| **Decision / action** | Each year, the 20% of films with the highest predicted risk of losing money go to deep review | Each year, the 20% of films **most likely to be winners** (US box office ≥ 1.25× budget) are identified; the rest get a closer look before money is committed to release and marketing |
+| **Positive class** | Money-loser (US box office < 1.25× budget) | **Winner** (US box office ≥ 1.25× budget). The data column `loser` is unchanged; winner = not loser |
+| **Evidence standard** | Share of all losers caught in the top 20%; beat baseline (b) by ≥ 5 points with a bootstrap 95% CI excluding 0 | Share of all **winners** caught in the top 20% picks; beat baseline (b) by ≥ 5 points with a bootstrap 95% CI excluding 0. Also report the hit rate @20% (share of picks that are winners) and AUC |
+| **Baseline (b)** | Flag genre × budget-tier groups with the highest historical loss rate | Pick genre × budget-tier groups with the highest historical **winner** rate (training years only) |
+
+**Reason:**
+1. **The loser metric had almost no room.** With 67% losers, the riskiest 20% can catch at most 30% of all losers. Baseline (b) already reaches 23%, so the 5-point bar needed 28.3% out of 30%. Winners are 33% of films, so the top 20% can catch up to 60% of them, which leaves real room to tell a good model from a lucky one.
+2. **It matches the question the team settled on:** "Will this movie be successful?" (Matt's A8 draft), and how the analysis has been presented since 2026-11-24 (Tanner).
+3. **Nothing has been fit on the test set.** The switch was made on cross-validated training results only (Edwards §18: winners caught 37.2% vs 28.0% for the baseline).
+
+**What stays the same:** the label definition (A7), population, splits (A5), 20% capacity, the ≥ 5-point bar, sensitivity checks (1× / 1.5×, $100K floor).
+
+**Approval**
+- [x] Tanner Edwards, 2026-11-26
+- [ ] Matt Sorensen
