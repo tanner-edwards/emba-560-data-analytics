@@ -31,8 +31,8 @@ Contents: [Handoff](#handoff) · [Session procedure](#session-procedure) · [Dir
 1. Matt: review this PR, A9 (winner framing), and A7 vs A8.
 2. Tune the model and decide the evaluation subset (all films vs wide releases) on training CV only.
 3. Then a **single** evaluation on 2016–19 (bootstrap CI vs baseline) and the 2020–23 stress test; sensitivity at 1× / 1.5× and the $100K floor.
-**Finalize this transcript with** (then re-apply the email redaction: `perl -pi -e 's/[\w.+-]+\@cricut\.com/[redacted email]/g' ai_logs/Edwards_ClaudeCode_data-exploration-cleaning_2026-11-24.md ai_logs/raw/Edwards_ClaudeCode_data-exploration-cleaning_2026-11-24.jsonl`; the repo is public):
-`python -I tools/export_session.py cae33d13-a6d1-4106-9e4d-52dd46dca9db Edwards_ClaudeCode_data-exploration-cleaning_2026-11-24 "Tanner Edwards - Claude Code - Unified dataset, film_uid and reviews table, cleaning notebook, contract amendments A1-A7, input review, outlier rules, missing-value fills with Wikidata (2026-11-21 to 11-24)"`
+**Finalize this transcript with** (then re-apply the email redaction: `perl -pi -e 's/(\\(?:[nrtbf]|u[0-9a-fA-F]{4}))?[\w.+-]+\@cricut\.com/$1[redacted email]/g' ai_logs/Edwards_ClaudeCode_label-eda-features-model_2026-11-27.md ai_logs/raw/Edwards_ClaudeCode_label-eda-features-model_2026-11-27.jsonl`; the repo is public):
+`python -I tools/export_session.py cae33d13-a6d1-4106-9e4d-52dd46dca9db Edwards_ClaudeCode_label-eda-features-model_2026-11-27 "Tanner Edwards - Claude Code - Contract amendments adopted, cleaning promoted to pipeline, CRISP-DM master notebook, label EDA (return vs inputs), trends, feature screen, reviews side study, Box Office Mojo fix, engineered features, model comparison and fit tests (2026-11-24 to 11-27)"`
 Matt's previous transcript (fb9b8a75) is still PARTIAL. Finalize it with:
 `python -I tools/export_session.py fb9b8a75-3b2f-4715-8305-2e18a342c311 Sorensen_ClaudeCode_profile-and-join_2026-11-18 "Matt Sorensen - Claude Code - A10 procedure test, wrong-folder fix, univariate profile (step 9), TMDB-RT join and hand-check (step 10), team summary (2026-11-18 to 11-19)"`
 

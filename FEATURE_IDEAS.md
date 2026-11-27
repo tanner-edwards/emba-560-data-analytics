@@ -83,7 +83,7 @@ A running list of candidate model features for the A10 money-loser screen. Anyon
 
 ### Source material grouping
 - **Added:** 2026-11-24 by Claude (from §7 review)
-- **Status:** idea
+- **Status:** dropped from the model (Edwards §20, 2026-11-27): after blank categories were merged it failed the likelihood-ratio test (p = 0.39) and removing it lowered AIC. Still useful as a description (adaptations ≈ 1.0× vs originals 0.67× median return).
 - **What:** Group the 23 `source_material` values into about 6: Original / Book / Real life / Comic / Remake-sequel-spin-off / Other.
 - **Why it might predict a money-loser:** adaptations bring a known audience; many current categories have under 20 films.
 - **Possible representation:** `source_group` (category) plus `source_material_missing`
@@ -103,7 +103,7 @@ A running list of candidate model features for the A10 money-loser screen. Anyon
 
 ### Writer + director combination
 - **Added:** 2026-11-24 by Tanner
-- **Status:** rejected as a pairing (Edwards §15h, §15n): repeat teams add nothing once the director's track record is known (coef 0.01 vs 0.34). Teams that reunite are the ones that had hits.
+- **Status:** rejected as a pairing (Edwards §15h, §15n; writer track record also fails the logistic LR test, p = 0.54, §19b): repeat teams add nothing once the director's track record is known (coef 0.01 vs 0.34). Teams that reunite are the ones that had hits.
 - **What:** A feature for the writer and director together: whether the director also wrote it (48% of films), and possibly repeat pairings.
 - **Why it might predict a money-loser:** writer-directors and repeat teams may have more control or proven chemistry.
 - **Possible representation:** `director_writes` (bool), `pair_prior_films` (int)
