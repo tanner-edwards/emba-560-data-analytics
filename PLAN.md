@@ -7,9 +7,11 @@ Contents: [Handoff](#handoff) · [Session procedure](#session-procedure) · [Dir
 ## Handoff
 *Rewritten at every session end. Read this first when resuming.*
 
-**Last updated:** 2026-11-26, Tanner's session cae33d13 (Claude Code), branch `tanner/label-eda`
-**Where we are:** Data Understanding is done. Amendments A1–A7 are agreed and in the contract; the cleaning rules run in `01_clean_dataset.ipynb` (population 4,933 films, label = US box office < 1.25× budget, 66.9% losers); `A10-master.ipynb` has CRISP-DM §1–3 (PR #7, merged). On `tanner/label-eda`, `Edwards-A10.ipynb` §10–16 compares every input to the return (training years 2000–15 only) and screens the feature ideas. A side study, `Edwards-A10-reviews.ipynb`, covers critic vs audience scores (description only).
-**Run order (README):** `tools/get_data.py` → `00_build_dataset.ipynb` → `01_clean_dataset.ipynb` → `A10-master.ipynb` / personal notebooks.
+**Last updated:** 2026-11-27, Tanner's session cae33d13 (Claude Code). **Tanner is pausing; Matt takes over.** Full handoff message: the description of the PR from `tanner/winner-framing` (CRISP-DM Phases 5–6 to-do list, and a note for Matt's AI).
+**Where we are:** Phases 1–4 are done and the model is **locked**. A9 is agreed: winner = US box office ≥ 1.25× budget (`winner` column); the screen picks the top 20% most likely winners each year. Final model: logistic regression, 12 features (`Edwards-A10.ipynb` §20). **Test set 2016–19 evaluated once** (§21): AUC 0.831 vs baseline 0.621; winners caught 45.1% vs 31.9% (+13.2 pts, 95% CI +7.8 to +17.6); 80% of picks won. Evidence standard met.
+**Run order (README):** `tools/get_data.py` → `00_build_dataset.ipynb` → `01_clean_dataset.ipynb` → `A10-master.ipynb` / personal notebooks. Reinstall `requirements.txt` (adds statsmodels, xgboost); rerun `01_clean` to get the `winner` column.
+
+**For Matt's AI, first:** if Matt approves Tanner's work, move it into `notebooks/A10-master.ipynb` (via PR; never edit `Edwards-A10.ipynb`). The master has §1–3 and text-only §4–5; it still needs the modeling and evaluation **code** from `Edwards-A10.ipynb` §18–21 (baseline, model comparison, fit tests, final model, the one-time test), re-runnable from `films_clean.csv`. Don't retune anything on the test set. Then work through Phases 5–6 as listed in the PR description.
 
 **Main findings (Edwards §10–16, training years)**
 - **Feature winners:** distributor group (major / mini-major / specialty; +0.169 AUC over budget), director track record (share of earlier films that were hits; 0.469 → 0.586), MPAA rating (G 1.31× → NR 0.05×), US vs non-US (1.02× vs 0.11×), primary genre (+0.077), sequel (real: 3.25× the odds after period and budget), major producer (+0.040), source group (adaptations ≈ 1.0× vs originals 0.67×), Tanner's overlapping-rating competition (G↔PG↔PG-13↔R within ±6 weeks; +0.012).
