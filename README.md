@@ -41,7 +41,7 @@ Run these top to bottom, in this order. Each step reads only the output of the s
 - **Assemble vs clean:** `00` only joins sources (one row per film, every source's columns side by side). `01` combines repeated columns into one per fact, standardizes formats and adds missing flags. It never drops films.
 - `films_clean_columns.csv` lists every column's group and role (key, input, label, description, source detail). Only `input` columns (and `fin_budget`) can go into a model.
 - **Side study:** `notebooks/Edwards-A10-reviews.ipynb` (Tanner) explores return vs critic and audience reviews. Reviews are post-release, so it's description and a possible second label only, never model inputs.
-- **Model rows:** `in_population` = True (4,933 films: released in the US, 2000–2023, budget ≥ $1M, after the cleaning rules). **Label:** `loser` = US box office < 1.25 × budget (contract amendment A7); `us_multiple` for the 1× / 1.5× checks. Films that fail a cleaning rule keep an `exclude_reason`.
+- **Model rows:** `in_population` = True (4,933 films: released in the US, 2000–2023, budget ≥ $1M, after the cleaning rules). **Label:** `loser` = US box office < 1.25 × budget (contract amendment A7); `us_multiple` for the 1× / 1.5× checks. Results are presented as **winners** (= not `loser`, US box office ≥ 1.25× budget); proposed amendment A9 makes "pick the top 20% most likely winners" the decision. Films that fail a cleaning rule keep an `exclude_reason`.
 
 Behind a TLS-inspecting proxy (e.g. Zscaler), `get_data.py` uses `truststore` so Python trusts the OS certificate store.
 
