@@ -1,6 +1,6 @@
 # emba-560-data-analytics
 
-EMBA 560 **A10** team project: a pre-production **money-loser screen** for film financing.
+EMBA 560 **A10** team project: a pre-release screen that picks the films most likely to be **winners** (US box office ≥ 1.25× budget).
 Due **Fri Dec 4, 2026, 3:30 PM**.
 
 - Frozen scope: [`A10_purpose_contract_FROZEN_2026-11-17.md`](A10_purpose_contract_FROZEN_2026-11-17.md)
@@ -41,7 +41,7 @@ Run these top to bottom, in this order. Each step reads only the output of the s
 - **Assemble vs clean:** `00` only joins sources (one row per film, every source's columns side by side). `01` combines repeated columns into one per fact, standardizes formats and adds missing flags. It never drops films.
 - `films_clean_columns.csv` lists every column's group and role (key, input, label, description, source detail). Only `input` columns (and `fin_budget`) can go into a model.
 - **Side study:** `notebooks/Edwards-A10-reviews.ipynb` (Tanner) explores return vs critic and audience reviews. Reviews are post-release, so it's description and a possible second label only, never model inputs.
-- **Model rows:** `in_population` = True (4,933 films: released in the US, 2000–2023, budget ≥ $1M, after the cleaning rules). **Label:** `loser` = US box office < 1.25 × budget (contract amendment A7); `us_multiple` for the 1× / 1.5× checks. Results are presented as **winners** (= not `loser`, US box office ≥ 1.25× budget); proposed amendment A9 makes "pick the top 20% most likely winners" the decision. Films that fail a cleaning rule keep an `exclude_reason`.
+- **Model rows:** `in_population` = True (4,933 films: released in the US, 2000–2023, budget ≥ $1M, after the cleaning rules). **Label:** `winner` = US box office ≥ 1.25 × budget (contract amendments A7, A9); `us_multiple` for the 1× / 1.5× checks. `loser` (= not winner) is an old column kept only so older exploration runs; don't use it.
 
 Behind a TLS-inspecting proxy (e.g. Zscaler), `get_data.py` uses `truststore` so Python trusts the OS certificate store.
 

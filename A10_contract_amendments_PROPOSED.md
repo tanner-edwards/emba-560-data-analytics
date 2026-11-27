@@ -61,7 +61,7 @@ No model had been fitted. The following had been looked at: loser rates overall 
 The contract's Amendments section (copy this in), `PLAN.md` Direction, `README.md`, `FEATURE_IDEAS.md`, both notebooks' introductions, and the `A10-master.ipynb` title. Each person edits their own notebook.
 
 ### Approval
-- [ ] Matt Sorensen, date:
+- [x] Matt Sorensen, 2026-11-27, date:
 - [ ] Tanner Edwards, date:
 
 ## All other proposals
@@ -75,7 +75,7 @@ The contract's Amendments section (copy this in), `PLAN.md` Direction, `README.m
 | A5 | 2020–2023 stress test | COVID years reported separately | **Keep** 2020–2023 as a separately reported stress test | Agreed 2026-11-24 |
 | A7 | Outcome and population | Worldwide revenue < 2.5× budget; films with reported worldwide revenue | **US box office < 1.25× budget; films released in the US** | Agreed 2026-11-24 |
 | A6 | Decision time / timing rule | At financing, before production | **Before release.** Any variable that can be controlled before the film releases is allowed. | Agreed 2026-11-24 |
-| A9 | Decision and evidence standard | Flag the 20% riskiest films (money-losers) for deep review; capture rate of losers | **Pick the 20% most likely winners**; measure winners caught in the top 20% | Proposed |
+| A9 | Decision and evidence standard | Flag the 20% riskiest films (money-losers) for deep review; capture rate of losers | **Pick the 20% most likely winners**; measure winners caught in the top 20% | Agreed 2026-11-27 |
 
 ## A1. Keep 2000–2023, with a reason
 **Reason:** 24 years of films is enough to be relevant to today's market. Before 2000, the data gets thin, and dollar amounts would need inflation adjustment to compare fairly. The end year stays at 2023 because later films hadn't finished their theatrical run when the data was pulled.
@@ -142,7 +142,7 @@ Agreed 2026-11-24: keep 2020–2023 as a separately reported stress test. COVID 
 **Also changes:** the label column moves from `fin_revenue` to `domestic_gross` (`domestic_gross` stops being "post-release: checks only"). A2's S4 numbers and the split sizes need rerunning.
 
 ## A9. Frame the screen as picking winners
-**Proposed by Tanner, 2026-11-26. Needs Matt's agreement before it goes into the contract.**
+**Proposed by Tanner, 2026-11-26. Agreed by Matt 2026-11-27 and copied into the contract's Amendments section.**
 
 **Change:** the label stays the same (A7: US box office vs 1.25× budget), but the decision and evidence standard flip from losers to winners.
 
@@ -162,4 +162,4 @@ Agreed 2026-11-24: keep 2020–2023 as a separately reported stress test. COVID 
 
 **Approval**
 - [x] Tanner Edwards, 2026-11-26
-- [ ] Matt Sorensen
+- [x] Matt Sorensen, 2026-11-27

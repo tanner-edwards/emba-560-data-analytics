@@ -19,8 +19,10 @@ Contents: [Handoff](#handoff) · [Session procedure](#session-procedure) · [Dir
 
 **Done 2026-11-26 (this PR):** Box Office Mojo grosses now split by theatrical run (no more same-title sums; *Frozen* 2010 is $246K, not $400M). Winning features built in `01_clean_dataset.ipynb` §12b. Baseline and first model in `Edwards-A10.ipynb` §18 (5-fold CV inside 2000–15; **test set still locked**), framed as picking winners: model AUC 0.758 vs baseline 0.609; winners caught in the top 20% 37.2% vs 28.0%; hit rate 62% vs 46%. Master notebook §2g, §3f, §4 updated.
 
+**Test set evaluated once (2026-11-27, Edwards §21):** final logistic regression on 2016–19: AUC 0.831 vs baseline 0.621; top 20% per year: winners caught 45.1% vs 31.9% (+13.2, 95% CI +7.8 to +17.6); precision 80% vs 57%. **Evidence standard (A9) met.** Next: 2020–23 stress test, sensitivity (1×, 1.5×, $100K).
+
 **Open issues**
-- **Proposed A9 (needs Matt):** frame the decision and evidence standard as picking the top 20% most likely winners. The loser version had a ~30% ceiling that left the 5-point bar almost no room; winners can be caught up to 60%.
+- **A9 agreed (2026-11-27):** the decision and evidence standard are picking the top 20% most likely winners; label column `winner`.
 - **The screen mostly flags obvious small, foreign, limited-release films.** Consider evaluating inside budget tiers, or among major and mini-major releases only, where the decision is harder.
 - `_missing` flags leak the outcome (+0.041 AUC): excluded from the model; report as a sensitivity check.
 - **A7 vs Matt's A8 draft** (worldwide 2.5× label; bans keyword fills and outcome-based cleaning rules).
@@ -28,7 +30,7 @@ Contents: [Handoff](#handoff) · [Session procedure](#session-procedure) · [Dir
 - Angel Studios: only *Sound of Freedom* is in the population; *The Shift* (2023) is missing because the TMDB snapshot predates it. All of their films are 2021–23 (stress test only).
 
 **Next steps**
-1. Matt: review this PR, A9 (winner framing), and A7 vs A8.
+1. Matt: review this PR and A7 vs A8 (A9 is agreed).
 2. Tune the model and decide the evaluation subset (all films vs wide releases) on training CV only.
 3. Then a **single** evaluation on 2016–19 (bootstrap CI vs baseline) and the 2020–23 stress test; sensitivity at 1× / 1.5× and the $100K floor.
 **Finalize this transcript with** (then re-apply the email redaction: `perl -pi -e 's/(\\(?:[nrtbf]|u[0-9a-fA-F]{4}))?[\w.+-]+\@cricut\.com/$1[redacted email]/g' ai_logs/Edwards_ClaudeCode_label-eda-features-model_2026-11-27.md ai_logs/raw/Edwards_ClaudeCode_label-eda-features-model_2026-11-27.jsonl`; the repo is public):
