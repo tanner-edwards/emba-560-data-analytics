@@ -7,38 +7,44 @@ Contents: [Handoff](#handoff) · [Session procedure](#session-procedure) · [Dir
 ## Handoff
 *Rewritten at every session end. Read this first when resuming.*
 
-**Last updated:** 2026-11-27, Tanner's session cae33d13 (Claude Code). **Tanner is pausing; Matt takes over.** Full handoff message: the description of the PR from `tanner/winner-framing` (CRISP-DM Phases 5–6 to-do list, and a note for Matt's AI).
-**Where we are:** Phases 1–4 are done and the model is **locked**. A9 is agreed: winner = US box office ≥ 1.25× budget (`winner` column); the screen picks the top 20% most likely winners each year. Final model: logistic regression, 12 features (`Edwards-A10.ipynb` §20). **Test set 2016–19 evaluated once** (§21): AUC 0.831 vs baseline 0.621; winners caught 45.1% vs 31.9% (+13.2 pts, 95% CI +7.8 to +17.6); 80% of picks won. Evidence standard met.
-**Run order (README):** `tools/get_data.py` → `00_build_dataset.ipynb` → `01_clean_dataset.ipynb` → `A10-master.ipynb` / personal notebooks. Reinstall `requirements.txt` (adds statsmodels, xgboost); rerun `01_clean` to get the `winner` column.
+**Last updated:** 2026-11-28, Matt's session f1a57453 (Claude Code). Matt has taken over from Tanner (Tanner's full handoff: PR #10 description). **Phase 5 (Evaluation), step 21 in progress**, a day ahead of the plan's Nov 29 start.
 
-**For Matt's AI, first:** if Matt approves Tanner's work, move it into `notebooks/A10-master.ipynb` (via PR; never edit `Edwards-A10.ipynb`). The master has §1–3 and text-only §4–5; it still needs the modeling and evaluation **code** from `Edwards-A10.ipynb` §18–21 (baseline, model comparison, fit tests, final model, the one-time test), re-runnable from `films_clean.csv`. Don't retune anything on the test set. Then work through Phases 5–6 as listed in the PR description.
+**Where we are**
+- Phases 1–4 done in substance; model **locked**: logistic regression, 12 features (`A10-master.ipynb` §4f). Label `winner` = US box office ≥ 1.25× budget (A7, A9); the screen picks the top 20% each year.
+- **Test 2016–19** (run once by Tanner 11/27, reproduced 11/28): AUC 0.831 vs baseline 0.621; winners caught 45.1% vs 32.2% (+12.8 pts, 95% CI +7.7 to +17.5); 80% of picks won. Evidence standard met. (Tanner's +13.2 differed only by tie-breaking; master now uses a stable sort.)
+- **Stress test 2020–23** (Matt, 11/28): ranking holds (recall 44.9% vs 27.6%, +17.3 pts, CI +9.9 to +28.4; AUC 0.779 vs 0.588; beats baseline every year) but predicted chances run high (44% predicted vs 26% actual). Use ranks, recalibrate yearly. Main misses: 2023 franchise tentpoles. Refit on 2000–19 no better.
 
-**Main findings (Edwards §10–16, training years)**
-- **Feature winners:** distributor group (major / mini-major / specialty; +0.169 AUC over budget), director track record (share of earlier films that were hits; 0.469 → 0.586), MPAA rating (G 1.31× → NR 0.05×), US vs non-US (1.02× vs 0.11×), primary genre (+0.077), sequel (real: 3.25× the odds after period and budget), major producer (+0.040), source group (adaptations ≈ 1.0× vs originals 0.67×), Tanner's overlapping-rating competition (G↔PG↔PG-13↔R within ±6 weeks; +0.012).
-- **Not worth it:** budget tiers / percentiles, season flags, release-window competition by budget, tentpole flag, budget per minute, writer–director familiarity (it's track record), same-rating-only crowding, genre count.
-- **Warnings:** "was blank" flags likely leak the outcome (undocumented films flop); budget's effect is curved (under $10M loses, flat above); originals are higher-variance, mostly on the downside.
-- **Context:** big films make more dollars per film, small films more per dollar but ~70% lose; sequels went from 6% to 23% of releases and 15% to 55% of US box office; the 2010s recovery is mostly fewer small films in the data; Blumhouse (median 7.2×) drives the horror boom.
+**Open PRs (Tanner to review; merge in order)**
+1. **#11** `matt/promote-modeling-to-master`: master §4 Modeling + §5a test set, standalone code from Edwards §18–21, stable tie-break.
+2. **#12** `matt/master-stress-test` (stacked on #11): Sorensen §5 + master §5b stress test.
+3. This session's PLAN/README update (`matt/session-2026-11-28`).
 
-**Done 2026-11-26 (this PR):** Box Office Mojo grosses now split by theatrical run (no more same-title sums; *Frozen* 2010 is $246K, not $400M). Winning features built in `01_clean_dataset.ipynb` §12b. Baseline and first model in `Edwards-A10.ipynb` §18 (5-fold CV inside 2000–15; **test set still locked**), framed as picking winners: model AUC 0.758 vs baseline 0.609; winners caught in the top 20% 37.2% vs 28.0%; hit rate 62% vs 46%. Master notebook §2g, §3f, §4 updated.
+**Setup on a new machine or after pulling:** reinstall `requirements.txt`; rerun `00_build` → `01_clean`. Notebooks request kernel `emba560-a10` (Tanner's machine only); on Matt's machine run with the `python3` kernel (`jupyter nbconvert --execute --ExecutePreprocessor.kernel_name=python3 …`). Windows Smart App Control once blocked a scikit-learn DLL; it cleared on retry.
 
-**Test set evaluated once (2026-11-27, Edwards §21):** final logistic regression on 2016–19: AUC 0.831 vs baseline 0.621; top 20% per year: winners caught 45.1% vs 31.9% (+13.2, 95% CI +7.8 to +17.6); precision 80% vs 57%. **Evidence standard (A9) met.** Next: 2020–23 stress test, sensitivity (1×, 1.5×, $100K).
+**Next steps (start here)**
+1. **Sensitivity checks (step 21, then step 15).** New standalone section in `Sorensen-A10.ipynb` (§6), same frozen §4f specification, nothing tuned on 2016–19; report next to the main result, then promote to master §5c by PR:
+   - **Label at 1× and at 1.5× budget** (`us_multiple`): refit the same specification on 2000–15 with the new label, evaluate once on 2016–19 (and 2020–23), vs a baseline relearned on the same label. Does the gain over the baseline hold?
+   - **$100K budget floor (A2):** rebuild the population with budget ≥ $100K (check whether `01_clean` exposes it, e.g. `usable`/`exclude_reason` with `fin_budget`; if not, propose a pipeline change via PR rather than re-cleaning in the notebook). Report how many films are added and whether results hold.
+   - **With `_missing` flags:** add them to the final model to show the size of the leak (Tanner: +0.041 AUC in CV); reported as a sensitivity check only, never the model.
+   - **Ablation:** drop each feature group from the final model (CV on training years) to show how much each adds; reuse the §4d likelihood-ratio results where they already answer it.
+2. **Test among major and mini-major releases only (step 21, §5d).** The screen mostly flags obvious small, foreign, limited releases; the harder decision is among wide studio releases. Restrict 2016–19 (and 2020–23) to `distributor_group` in {Major, Mini-major}, keep the frozen model (trained on all films), pick the top 20% within that subset each year, and compare with the baseline (and a baseline relearned on the subset). Also report results within budget tiers. Pre-commit the subset definition in the notebook before running.
+3. Then steps 22–25: decision policy and responsible use (rank, don't read chances literally; human review; never cancels a film), value break-even, verdict and reopening evidence, Appendix D (independent rebuild of 3–5 key numbers, not a rerun of the same code).
 
-**Open issues**
-- **A9 agreed (2026-11-27):** the decision and evidence standard are picking the top 20% most likely winners; label column `winner`.
-- **The screen mostly flags obvious small, foreign, limited-release films.** Consider evaluating inside budget tiers, or among major and mini-major releases only, where the decision is harder.
-- `_missing` flags leak the outcome (+0.041 AUC): excluded from the model; report as a sensitivity check.
-- **A7 vs Matt's A8 draft** (worldwide 2.5× label; bans keyword fills and outcome-based cleaning rules).
-- Title matcher misses a few big films (*F9*, *The Butler*); `audience_score` should prefer Rotten Tomatoes; distributor and company names not fully standardized.
-- Angel Studios: only *Sound of Freedom* is in the population; *The Shift* (2023) is missing because the TMDB snapshot predates it. All of their films are 2021–23 (stress test only).
+**Loose ends to fix (before the report)**
+- **Update this file's checkboxes and the "Direction" section:** Direction still describes the old 2.5× money-loser label and 5,766-film population; it should state A7/A9 (winner ≥ 1.25× US box office, 4,933 films). Checkboxes were updated 11/28 (see Plan and status); keep them current.
+- **Restore Matt's operating rule in `CLAUDE.md`:** Tanner's 11/27 rewrite dropped "Before taking any action beyond answering the question asked, state the next step you propose and ask me to confirm … Do not assume. If you skip, merge or reorder a step … say so before you do it. Wait for my yes." Add it back alongside Tanner's instructions.
+- **Close or reconcile amendment A8** (`A10_contract_amendments_PROPOSED.md`); A7 and A9 cover its question and label.
+- **Decide on formal write-ups for steps 11, 12, 13 and 20:** step 11 (were RT reviews dated before release?) and step 12 (readiness gate) were never written as steps; step 13 needs a Ch 7 cleaning-ledger appendix (rules are in `01_clean`, reported in master §3); step 20 needs the material AI correction written up (candidates: Claude's "votes ≥ 50" post-release filter caught in step 6; Tanner's blank-data leak). Either do them or note in the report where each is covered.
+- **Unpushed 11/24 work:** branch `matt/integrate-cleaning-rules` has two local-only commits (pipeline verification, a session-log line); Tanner's 11/26–27 work superseded most of it. Review, then keep or delete the branch. A stash ("pre-pull notebook output edits 2026-11-28") holds stray notebook outputs; safe to drop after a look.
+- **`Sorensen-A10.ipynb` shows as modified on branches where it still has saved outputs** (Windows line endings + nbstripout). It is not real work; resolved once PR #12 merges.
+- **Unlogged AI transcripts on Matt's machine** (not yet in the README table or `ai_logs/`): `4197a19c…`, `c08f31b6…` (emba repo folder, 11/24), `1603a6c0…`, `8b91e2a8…` (Repos folder, 11/24), `cef042d7…` (Repos folder, 11/28 morning). Check each is A10, then export with `tools/export_session.py` and add rows.
+- **Workspace rule:** this session was launched from `Documents\Repos`, not the repo folder. Next time open `emba-560-data-analytics` itself (Session procedure, Starting step 3).
+- Carried from Tanner: title matcher misses a few big films (*The Butler*; *F9* now matches); `audience_score` should prefer Rotten Tomatoes; distributor and company names not fully standardized.
 
-**Next steps**
-1. Matt: review this PR and A7 vs A8 (A9 is agreed).
-2. Tune the model and decide the evaluation subset (all films vs wide releases) on training CV only.
-3. Then a **single** evaluation on 2016–19 (bootstrap CI vs baseline) and the 2020–23 stress test; sensitivity at 1× / 1.5× and the $100K floor.
-**Finalize this transcript with** (then re-apply the email redaction: `perl -pi -e 's/(\\(?:[nrtbf]|u[0-9a-fA-F]{4}))?[\w.+-]+\@cricut\.com/$1[redacted email]/g' ai_logs/Edwards_ClaudeCode_label-eda-features-model_2026-11-27.md ai_logs/raw/Edwards_ClaudeCode_label-eda-features-model_2026-11-27.jsonl`; the repo is public):
-`python -I tools/export_session.py cae33d13-a6d1-4106-9e4d-52dd46dca9db Edwards_ClaudeCode_label-eda-features-model_2026-11-27 "Tanner Edwards - Claude Code - Contract amendments adopted, cleaning promoted to pipeline, CRISP-DM master notebook, label EDA (return vs inputs), trends, feature screen, reviews side study, Box Office Mojo fix, engineered features, model comparison and fit tests (2026-11-24 to 11-27)"`
-Matt's previous transcript (fb9b8a75) is still PARTIAL. Finalize it with:
-`python -I tools/export_session.py fb9b8a75-3b2f-4715-8305-2e18a342c311 Sorensen_ClaudeCode_profile-and-join_2026-11-18 "Matt Sorensen - Claude Code - A10 procedure test, wrong-folder fix, univariate profile (step 9), TMDB-RT join and hand-check (step 10), team summary (2026-11-18 to 11-19)"`
+**Transcripts to finalize at the next start** (the repo is public: after each export, run `python -I tools/redact_emails.py ai_logs/<stem>.md ai_logs/raw/<stem>.jsonl`; it must print `left: 0` for both)
+- This session (Matt): `python -I tools/export_session.py f1a57453-a131-4d74-b763-520873978545 Sorensen_ClaudeCode_eval-master-stress-test_2026-11-28 "Matt Sorensen - Claude Code - Picked up Tanner's work, reproduced the test set, promoted modeling and evaluation to master (PR #11), COVID stress test (PR #12) (2026-11-28)"`
+- Matt's fb9b8a75 (still PARTIAL): `python -I tools/export_session.py fb9b8a75-3b2f-4715-8305-2e18a342c311 Sorensen_ClaudeCode_profile-and-join_2026-11-18 "Matt Sorensen - Claude Code - A10 procedure test, wrong-folder fix, univariate profile (step 9), TMDB-RT join and hand-check (step 10), team summary (2026-11-18 to 11-19)"`
+- Tanner's cae33d13 (row 7, PARTIAL) is on Tanner's machine; he finalizes it with the command in PR #10's PLAN.md version, then re-applies his redaction.
 
 ## Session procedure
 Matt says **"start A10 session"** or **"end A10 session"** (plain "start session" / "end session" also count); Claude runs the matching checklist and confirms each item.
@@ -106,25 +112,25 @@ Don't use **File → Open Recent** or double-click workspace files. Always use *
 - [x] 8. Data Receipt COMPLETE 2026-11-18 (notebook §2, Run All saved): receipt table, SHA-256 fingerprints, grain check (TMDB 1,019 conflicting dup ids), zero-as-missing budget/revenue, date coverage, population funnel. 43.6% of budget ≥ $1M films lack revenue → S4 triggered. Disposition: FIT WITH CONDITIONS. Rights: academic use only; don't reproduce review text beyond short excerpts; credit TMDB (ODC-By).
 - [x] 9. All-field univariate profile COMPLETE 2026-11-18 (notebook §3, Run All saved): all 51 fields plus derived measures, profiled on the 5,766-film population (label by period), RT files whole. 66 flags in register §3i; 12 dispositions approved by Matt (§3k); gate CONTINUE. Key findings: 64.6% losers at 2.5× (capture ceiling ≈ 31% at 20% capacity); revenue entry errors (24 films < $1K, 244 < $100K); 6 possible double-id pairs; 66% of companies have one film (sparse track record).
 - [x] 10. Join COMPLETE 2026-11-19 (notebook §4, Run All saved): title + year ±1 + runtime, 1:1, plus rule 2b (streaming-only RT date later than release, runtime within 5 min; added after first pass, documented). 4,673 / 5,766 matched (81.0%). Hand-check by Matt: 0 / 50 random wrong (95% CI 0–7%) → **S3 not triggered**; rule 2b 0 / 11 wrong. Match rate 58% for $1–5M vs 91% for $60M+ → "director unknown" indicator needed. **New label risk:** 396 matched films (10.3%) have TMDB revenue = RT domestic (87% labelled losers vs 57%) → step 12.
-- [ ] 11. Test early-review hypothesis (RT reviews dated before release?)
-- [ ] 12. Readiness gate (go / narrow), including S4 check via RT boxOffice on revenue-missing films
+- [~] 11. Test early-review hypothesis (RT reviews dated before release?). Not done as a formal step; Tanner's reviews side study (`Edwards-A10-reviews.ipynb`) covers reviews vs return. Reviews are post-release and excluded from the model (A6). Write up or note in report.
+- [~] 12. Readiness gate (go / narrow), including S4 check via RT boxOffice on revenue-missing films. Effectively GO via Tanner's unified dataset (The Numbers, Box Office Mojo, Wikidata fill revenue gaps) and amendments A1–A7 (11/24); no formal gate written.
 
 **Phase 3: Preparation (Nov 21–23) → 8 pts**
-- [ ] 13. Cleaning ledger (Ch 7): $1–2 budgets, dup ids, placeholder dates, exclusions, row counts
-- [ ] 14. Features with time-order discipline (director/company track record from prior films only, release month, genre…)
-- [ ] 15. Reconciliation raw→final + one sensitivity check
+- [~] 13. Cleaning ledger (Ch 7): $1–2 budgets, dup ids, placeholder dates, exclusions, row counts. Rules built by Tanner in `01_clean_dataset.ipynb` (C1–C18, exclusion and fill rules), reported in master §3; the ledger appendix still needs writing.
+- [x] 14. Features with time-order discipline (director/company track record from prior films only, release month, genre…). Tanner, 11/26 (`01_clean` §12b; master §3f).
+- [~] 15. Reconciliation raw→final + one sensitivity check. Funnel in master §3d (Tanner); sensitivity checks are next (Handoff, next step 1).
 
 **Phase 4: Modeling (Nov 23–25) → 16 pts**
-- [ ] 16. Temporal split: train 2000–15, test 2016–19, stress 2020–23
-- [ ] 17. Baseline first (genre × budget-tier rule)
-- [ ] 18. 1–2 models (logistic; optional tree)
-- [ ] 19. Explanatory layer with intervals
-- [ ] 20. Capture one material AI correction (error, catch, fix)
+- [x] 16. Temporal split: train 2000–15, test 2016–19, stress 2020–23. Tanner (A5).
+- [x] 17. Baseline first (genre × budget-tier rule). Tanner, 11/26 (master §4b).
+- [x] 18. 1–2 models (logistic; optional tree). Tanner, 11/26–27: five model types compared; logistic regression final, XGBoost challenger (master §4c–4f). Promoted to master by Matt 11/28 (PR #11).
+- [x] 19. Explanatory layer with intervals. Tanner, 11/27: odds ratios with 95% CIs, likelihood-ratio and AIC tests (master §4d, §4f).
+- [~] 20. Capture one material AI correction (error, catch, fix). Candidates: Claude's "votes ≥ 50" post-release filter (Matt caught it, step 6); the blank-data leak (Tanner). Write-up pending.
 
 **Thanksgiving buffer (Nov 26–29):** light; fresh Run all, catch up
 
 **Phase 5: Evaluation & Decision (Nov 29–Dec 1) → 12 + 8 + 7 pts**
-- [ ] 21. Test-period eval vs baseline: losers caught, good films wrongly flagged, calibration, stress period
+- [~] 21. Test-period eval vs baseline (A9: winners caught, precision), calibration, stress period. Test 2016–19: Tanner 11/27, reproduced and promoted by Matt 11/28 (master §5a, PR #11). Stress test 2020–23: Matt 11/28 (Sorensen §5, master §5b, PR #12). **Open:** sensitivity (1×, 1.5×, $100K, `_missing` flags), ablation, majors and mini-majors only.
 - [ ] 22. Decision policy + responsible use (selection bias, gross-revenue caveat)
 - [ ] 23. Value: fill-in break-even, no invented dollars
 - [ ] 24. Verdict (continue/pilot/redirect/satisfice/stop) + reopening evidence
@@ -154,3 +160,6 @@ Don't use **File → Open Recent** or double-click workspace files. Always use *
 - 2026-11-18: Session fb9b8a75: procedure test passed. A wrong-folder start (fde2d022, launched in A7 via a stray workspace file) was diagnosed and logged; guard added to A7 memory; simple start/end steps added to Session procedure. Phase 2 step 9 complete (notebook §3; dispositions §3k approved; gate CONTINUE). Step 10 complete 2026-11-19 (join 81.0%, hand-check 0/50 wrong, S3 not triggered). Executive summary for teammates published as a private artifact. Next: step 11 (early-review test).
 - 2026-11-21 to 11-24: Tanner's session cae33d13: unified dataset with film_uid and reviews table, cleaning notebook `01_clean_dataset.ipynb`, amendments A1–A7 proposed, every input reviewed, outlier rules and missing-value fills decided (Edwards §4–9), Wikidata people snapshot added. Merged to main via PRs #3–#5. Next: Matt signs off A6/A7; promote rules into 01_clean; fix build matching.
 - 2026-11-25 to 11-26: Tanner's session cae33d13 (branch `tanner/label-eda`): every input compared with the US return (Edwards §10–16, training years), feature ideas screened with cross-validated AUC, sequel title rule, bets-vs-success trends, reviews side notebook. Found the Box Office Mojo same-title gross bug. Next: fix the join, promote winning features to 01_clean, baseline and model.
+- 2026-11-24: Matt's session (branch `matt/integrate-cleaning-rules`, not pushed): verified the pipeline (4,933 films) and amendments A1–A7. Superseded by Tanner's 11/26–27 work.
+- 2026-11-26 to 11-27: Tanner's session cae33d13 (PRs #9, #10, recorded by Matt from the commits): Box Office Mojo fix, engineered features, baseline and five model types, fit tests, final 12-feature logistic regression; A9 adopted (winner framing); test 2016–19 run once: AUC 0.831, winners caught 45.1% vs 31.9%. Tanner paused and handed over to Matt.
+- 2026-11-28: Matt's session f1a57453: pulled Tanner's work, rebuilt the pipeline and reproduced the test (logistic results identical; baseline differs by tie-breaking). Promoted Edwards §18–21 into master §4–5a with a stable tie-break (PR #11). COVID stress test 2020–23 in Sorensen §5 and master §5b (PR #12): ranking holds (+17.3 pts recall over baseline), probabilities run high. Plan checkboxes brought up to date. Next: sensitivity checks, then majors/mini-majors only.
